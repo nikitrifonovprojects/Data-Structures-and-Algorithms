@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NT.AlgorithmsT.Tests
+namespace NT.Algorithms.Tests
 {
     [TestClass]
-    public class AlgorithmsUnitTests
+    public class Algo
     {
         [TestMethod]
         public void TestMethod1()
