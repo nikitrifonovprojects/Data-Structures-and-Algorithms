@@ -155,11 +155,11 @@ namespace NT.DataStructures
 
         public bool Contains(T item)
         {
-            if (item == null)
+            if ((Object)item == null)
             {
                 for (int i = 0; i < this.size; i++)
                 {
-                    if (this.items[i] == null)
+                    if ((Object)this.items[i] == null)
                     {
                         return true;
                     }
@@ -184,22 +184,58 @@ namespace NT.DataStructures
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            Array.Copy(this.items, 0, array, arrayIndex, this.size);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            foreach (T t in this.items)
+            {
+                if ((Object)t == null)
+                {
+                    break;
+                }
+
+                yield return t;
+            }
+        }
+
+        public int IndexOf(T item)
+        {
+            return Array.IndexOf(this.items, item, 0, this.size);
+        }
+
+        public void RemoveAt(int index)
+        {
+            if (index >= this.size)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            this.size--;
+            if (index < this.size)
+            {
+                Array.Copy(this.items, index + 1, this.items, index, this.size - index);
+            }
+
+            this.items[this.size] = default(T);  //?
         }
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            int index = this.IndexOf(item);
+            if (index >= 0)
+            {
+                this.RemoveAt(index);
+                return true;
+            }
+
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
 
         private void EnsureCapacity(int minimum)
