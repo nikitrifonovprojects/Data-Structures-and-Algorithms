@@ -50,7 +50,7 @@ namespace NT.DataStructures
             }
         }
 
-        public void AddLast(T item)
+        public LinkedListNode<T> AddLast(T item)
         {
             LinkedListNode<T> result = new LinkedListNode<T>(this, item);
             if (this.head == null)
@@ -61,6 +61,8 @@ namespace NT.DataStructures
             {
                 InsertNodeBefore(this.head, result);
             }
+
+            return result;
         }
 
         private void AddLast(LinkedListNode<T> node)
@@ -343,10 +345,13 @@ namespace NT.DataStructures
 
         private void InsertNodeToEmptyList(LinkedListNode<T> newNode)
         {
-            newNode.next = newNode;
-            newNode.prev = newNode;
-            this.head = newNode;
-            this.count++;
+            if (this.head == null && this.count == 0)
+            {
+                newNode.next = newNode;
+                newNode.prev = newNode;
+                this.head = newNode;
+                this.count++;
+            }
         }
 
         private void InsertNodeBefore(LinkedListNode<T> node, LinkedListNode<T> newNode)
