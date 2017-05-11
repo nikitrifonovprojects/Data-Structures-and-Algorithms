@@ -189,15 +189,7 @@ namespace NT.DataStructures
 
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (T t in this.items)
-            {
-                if ((Object)t == null)
-                {
-                    break;
-                }
-
-                yield return t;
-            }
+            return new StaticListEnumerator<T>(this);
         }
 
         public int IndexOf(T item)
@@ -218,7 +210,7 @@ namespace NT.DataStructures
                 Array.Copy(this.items, index + 1, this.items, index, this.size - index);
             }
 
-            this.items[this.size] = default(T);  //?
+            this.items[this.size] = default(T);
         }
 
         public bool Remove(T item)
