@@ -65,7 +65,7 @@ namespace NT.DataStructures
 
         private void AddLast(LinkedListNode<T> node)
         {
-
+            ValidateNode(node);
             if (this.head == null)
             {
                 InsertNodeToEmptyList(node);
@@ -96,37 +96,249 @@ namespace NT.DataStructures
 
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            this.AddLast(item);
+        }
+
+        public void RemoveFirst()
+        {
+            if (this.head == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            RemoveNode(this.head);
+        }
+
+        public void RemoveLast()
+        {
+            if (this.head == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            RemoveNode(this.head.prev);
+        }
+
+        public LinkedListNode<T> AddAfter(LinkedListNode<T> node, T value)
+        {
+            ValidateNode(node);
+            LinkedListNode<T> result = new LinkedListNode<T>(value);
+            InsertNodeBefore(node.next, result);
+
+            return result;
+        }
+
+        public void AddAfter(LinkedListNode<T> node, LinkedListNode<T> newNode)
+        {
+            ValidateNode(node);
+            ValidateNewNode(newNode);
+            InsertNodeBefore(node.next, newNode);
+            newNode.list = this;
+        }
+
+        public LinkedListNode<T> AddBefore(LinkedListNode<T> node, T value)
+        {
+            ValidateNode(node);
+            LinkedListNode<T> result = new LinkedListNode<T>(node.list, value);
+            InsertNodeBefore(node, result);
+            if (node == this.head)
+            {
+                this.head = result;
+            }
+
+            return result;
+        }
+
+        public void AddBefore(LinkedListNode<T> node, LinkedListNode<T> newNode)
+        {
+            ValidateNode(node);
+            ValidateNewNode(newNode);
+            InsertNodeBefore(node, newNode);
+            newNode.list = this;
+            if (node == this.head)
+            {
+                this.head = newNode;
+            }
+        }
+
+        public LinkedListNode<T> AddFirst(T value)
+        {
+            LinkedListNode<T> result = new LinkedListNode<T>(this, value);
+            if (this.head == null)
+            {
+                InsertNodeToEmptyList(result);
+            }
+            else
+            {
+                InsertNodeBefore(this.head, result);
+                this.head = result;
+            }
+
+            return result;
+        }
+
+        public void AddFirst(LinkedListNode<T> node)
+        {
+            ValidateNewNode(node);
+            if (this.head == null)
+            {
+                InsertNodeToEmptyList(node);
+            }
+            else
+            {
+                InsertNodeBefore(this.head, node);
+                this.head = node;
+            }
+
+            node.list = this;
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            LinkedListNode<T> current = this.head;
+            while (current != null)
+            {
+                LinkedListNode<T> temp = current;
+                current = current.Next;
+                temp.Invalidate();
+            }
+
+            this.head = null;
+            this.count = 0;
         }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            return Find(item) != null;
         }
 
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo(T[] array, int index)
         {
-            throw new NotImplementedException();
+            if (array == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (index < 0 || index > array.Length)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (array.Length - index < this.Count)
+            {
+                throw new ArgumentException();
+            }
+
+            LinkedListNode<T> node = this.head;
+            if (node != null)
+            {
+                do
+                {
+                    array[index++] = node.content;
+                    node = node.next;
+                } while (node != this.head);
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new LinkedListEnumerator<T>(this);
         }
 
-        public bool Remove(T item)
+        public bool Remove(T value)
         {
-            throw new NotImplementedException();
+            LinkedListNode<T> node = Find(value);
+            if (node != null)
+            {
+                RemoveNode(node);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void Remove(LinkedListNode<T> node)
+        {
+            ValidateNode(node);
+            RemoveNode(node);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public LinkedListNode<T> Find(T value)
+        {
+            LinkedListNode<T> node = this.head;
+            EqualityComparer<T> c = EqualityComparer<T>.Default;
+            if (node != null)
+            {
+                if (value != null)
+                {
+                    do
+                    {
+                        if (c.Equals(node.content, value))
+                        {
+                            return node;
+                        }
+                        node = node.next;
+                    } while (node != this.head);
+                }
+                else
+                {
+                    do
+                    {
+                        if (node.content == null)
+                        {
+                            return node;
+                        }
+                        node = node.next;
+                    } while (node != this.head);
+                }
+            }
+
+            return null;
+        }
+
+        public LinkedListNode<T> FindLast(T value)
+        {
+            if (this.head == null)
+            {
+                return null;
+            }
+
+            LinkedListNode<T> last = this.head.prev;
+            LinkedListNode<T> node = last;
+            EqualityComparer<T> c = EqualityComparer<T>.Default;
+            if (node != null)
+            {
+                if (value != null)
+                {
+                    do
+                    {
+                        if (c.Equals(node.content, value))
+                        {
+                            return node;
+                        }
+
+                        node = node.prev;
+                    } while (node != last);
+                }
+                else
+                {
+                    do
+                    {
+                        if (node.content == null)
+                        {
+                            return node;
+                        }
+                        node = node.prev;
+                    } while (node != last);
+                }
+            }
+
+            return null;
         }
 
         private void InsertNodeToEmptyList(LinkedListNode<T> newNode)
@@ -144,6 +356,53 @@ namespace NT.DataStructures
             node.prev.next = newNode;
             node.prev = newNode;
             this.count++;
+        }
+
+        private void RemoveNode(LinkedListNode<T> node)
+        {
+            if (node.next == node)
+            {
+                this.head = null;
+            }
+            else
+            {
+                node.next.prev = node.prev;
+                node.prev.next = node.next;
+                if (this.head == node)
+                {
+                    this.head = node.next;
+                }
+            }
+
+            node.Invalidate();
+            this.count--;
+        }
+
+        internal void ValidateNewNode(LinkedListNode<T> node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (node.list != null)
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+
+        internal void ValidateNode(LinkedListNode<T> node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (node.list != this)
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 
