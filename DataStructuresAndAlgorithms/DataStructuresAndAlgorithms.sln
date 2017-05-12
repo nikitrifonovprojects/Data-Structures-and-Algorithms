@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NT.Algorithms.Tests", "NT.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NT.DataStructures.Tests", "NT.DataStructures.Tests\NT.DataStructures.Tests.csproj", "{2E677815-E08E-4631-A941-212C62CB35E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NT.ConsoleApp", "NT.Console\NT.ConsoleApp.csproj", "{C5FF2143-7B19-440B-B328-4B8F2BF36C1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NT.ConsoleApp", "NT.ConsoleApp\NT.ConsoleApp.csproj", "{C5FF2143-7B19-440B-B328-4B8F2BF36C1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
