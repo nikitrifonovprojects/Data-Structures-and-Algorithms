@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C5FF2143-7B19-440B-B328-4B8F2BF36C1D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>NT.Console</RootNamespace>
-    <AssemblyName>NT.Console</AssemblyName>
+    <RootNamespace>NT.ConsoleApp</RootNamespace>
+    <AssemblyName>NT.ConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

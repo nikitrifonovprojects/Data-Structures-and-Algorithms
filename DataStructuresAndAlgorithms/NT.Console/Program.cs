@@ -1,6 +1,6 @@
 ﻿using NT.DataStructures;
 
-namespace NT.Console
+namespace NT.ConsoleApp
 {
     public class Program
     {
