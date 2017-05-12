@@ -6,7 +6,7 @@ namespace NT.Console
     {
         static void Main(string[] args)
         {
-            
+           
         }
     }
 }

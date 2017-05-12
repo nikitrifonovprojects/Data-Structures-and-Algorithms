@@ -42,8 +42,6 @@
   <ItemGroup>
     <Compile Include="LinkedList.cs" />
     <Compile Include="LinkedListEnumerator.cs" />
-    <Compile Include="NormalLinkedList.cs" />
-    <Compile Include="NormalLinkedListEnumerator.cs" />
     <Compile Include="StaticList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticListEnumerator.cs" />
