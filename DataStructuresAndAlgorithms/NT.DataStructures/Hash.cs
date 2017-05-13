@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NT.DataStructures
 {
@@ -146,6 +144,12 @@ namespace NT.DataStructures
         public bool Contains(T value)
         {
             int hashCode = value.GetHashCode();
+            hashCode = ReHash(hashCode);
+            if (hashCode < 0)
+            {
+                hashCode *= -1;
+            }
+
             int bucket = hashCode % this.buckets.Length;
             var checkIfPresent = this.buckets[bucket];
             if (checkIfPresent != null)
@@ -211,6 +215,12 @@ namespace NT.DataStructures
         public bool Remove(T value)
         {
             int hashCode = value.GetHashCode();
+            hashCode = ReHash(hashCode);
+            if (hashCode < 0)
+            {
+                hashCode *= -1;
+            }
+
             int bucket = hashCode % this.buckets.Length;
             var checkIfPresent = this.buckets[bucket];
             if (checkIfPresent != null)
