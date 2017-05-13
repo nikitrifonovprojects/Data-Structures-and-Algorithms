@@ -10,7 +10,7 @@ namespace NT.DataStructures
     public class Hash<T> : ICollection<T>
     {
         private const int DefaultInitialSize = 17;
-        private List<HashSlot<T>>[] buckets;
+        public List<HashSlot<T>>[] buckets;
         private int count;
         private int lenght;
 
@@ -71,12 +71,18 @@ namespace NT.DataStructures
 
         private bool AddIfNotPresent(T value)
         {
-            if (this.count * 3 > this.buckets.Length)
+            if (this.count * 4 > this.buckets.Length)
             {
                 IncreaseCapacity();
             }
 
             int hashCode = value.GetHashCode();
+            hashCode = ReHash(hashCode);
+            if (hashCode < 0)
+            {
+                hashCode *= -1;
+            }
+
             int bucket = hashCode % this.buckets.Length;
             var checkIfPresent = this.buckets[bucket];
 
@@ -100,6 +106,7 @@ namespace NT.DataStructures
             itemToAdd.hashCode = hashCode;
             itemToAdd.value = value;
             checkIfPresent.Add(itemToAdd);
+            this.buckets[bucket] = checkIfPresent;
             this.count++;
 
             return true;
@@ -119,6 +126,7 @@ namespace NT.DataStructures
                     newBuckets[newBucket] = this.buckets[i];
                 }
             }
+
             this.buckets = newBuckets;
             this.lenght = newBuckets.Length;
         }
@@ -172,19 +180,32 @@ namespace NT.DataStructures
                 throw new ArgumentOutOfRangeException();
             }
 
-            int currentPlace = 0;
-            for (int i = 0; i < this.lenght; i++)
+            if (this.count > arrayIndex)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            int current = 0;
+            int numCopied = 0;
+            for (int i = 0; i < this.lenght && numCopied < this.count; i++)
             {
                 if (this.buckets[i] != null)
                 {
-
+                    var tempArray = this.buckets[i].ToArray();
+                    for (int k = 0; k < tempArray.Length; k++)
+                    {
+                        array[current] = tempArray[k].value;
+                        current++;
+                        numCopied++;
+                    }
                 }
             }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return this.GetEnumerator();
+
+            return new HashEnumerator<T>(this);
         }
 
         public bool Remove(T value)
@@ -234,6 +255,26 @@ namespace NT.DataStructures
                 }
             }
             return true;
+        }
+
+        private int ReHash(int source)
+        {
+            unchecked
+            {
+                ulong c = 0xDEADBEEFDEADBEEF + (ulong)source;
+                ulong d = 0xE2ADBEEFDEADBEEF ^ c;
+                ulong a = d += c = c << 15 | c >> -15;
+                ulong b = a += d = d << 52 | d >> -52;
+                c ^= b += a = a << 26 | a >> -26;
+                d ^= c += b = b << 51 | b >> -51;
+                a ^= d += c = c << 28 | c >> -28;
+                b ^= a += d = d << 9 | d >> -9;
+                c ^= b += a = a << 47 | a >> -47;
+                d ^= c += b << 54 | b >> -54;
+                a ^= d += c << 32 | c >> 32;
+                a += d << 25 | d >> -25;
+                return NextPrimeNumber((int)(a >> 1));
+            }
         }
     }
 }
