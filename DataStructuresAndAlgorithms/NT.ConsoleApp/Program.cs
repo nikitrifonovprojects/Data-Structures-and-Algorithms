@@ -1,4 +1,5 @@
-﻿using NT.DataStructures;
+﻿using System;
+using NT.DataStructures;
 
 namespace NT.ConsoleApp
 {
@@ -6,7 +7,7 @@ namespace NT.ConsoleApp
     {
         static void Main(string[] args)
         {
-            
+           
         }
     }
 }

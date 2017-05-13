@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hash.cs" />
+    <Compile Include="HashSlot.cs" />
     <Compile Include="LinkedList.cs" />
     <Compile Include="LinkedListEnumerator.cs" />
     <Compile Include="StaticList.cs" />
