@@ -7,11 +7,13 @@ namespace NT.DataStructures
     {
         private Hash<T> hash;
         private int index;
+        private int innerIndex;
         private int bucketCount;
         private T current;
 
         public HashEnumerator(Hash<T> hash)
         {
+            this.innerIndex = 0;
             this.index = 0;
             this.hash = hash;
             this.bucketCount = this.hash.buckets.Length;
@@ -45,24 +47,23 @@ namespace NT.DataStructures
                 if (this.hash.buckets[this.index] != null)
                 {
                     var tempArray = this.hash.buckets[this.index].ToArray();
-                    for (int k = 0; k < tempArray.Length; k++)
+                    while (tempArray.Length > this.innerIndex)
                     {
-                        this.current = tempArray[k].value;
-                        this.index++;
+                        this.current = tempArray[this.innerIndex].value;
+                        this.innerIndex++;
                         return true;
-
                     }
                 }
-
+                this.innerIndex = 0;
                 this.index++;
             }
-
             this.current = default(T);
             return false;
         }
 
         public void Reset()
         {
+            this.innerIndex = 0;
             this.index = 0;
             this.current = default(T);
         }

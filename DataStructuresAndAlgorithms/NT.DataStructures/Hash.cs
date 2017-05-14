@@ -231,6 +231,7 @@ namespace NT.DataStructures
                     if (current.hashCode == hashCode && current.value.Equals(value))
                     {
                         checkIfPresent.Remove(checkIfPresent[i]);
+                        this.count--;
                         return true;
                     }
                 }
