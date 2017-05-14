@@ -45,9 +45,11 @@
     <Compile Include="HashSlot.cs" />
     <Compile Include="LinkedList.cs" />
     <Compile Include="LinkedListEnumerator.cs" />
+    <Compile Include="StaticStack.cs" />
     <Compile Include="StaticList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticListEnumerator.cs" />
+    <Compile Include="StaticStackEnumerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
