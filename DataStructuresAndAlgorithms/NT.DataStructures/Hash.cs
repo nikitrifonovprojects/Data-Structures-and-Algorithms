@@ -82,17 +82,17 @@ namespace NT.DataStructures
             }
 
             int bucket = hashCode % this.buckets.Length;
-            var checkIfPresent = this.buckets[bucket];
+            var currentBucket = this.buckets[bucket];
 
-            if (checkIfPresent == null)
+            if (currentBucket == null)
             {
-                checkIfPresent = new List<HashSlot<T>>();
+                currentBucket = new List<HashSlot<T>>();
             }
             else
             {
-                for (int i = 0; i < checkIfPresent.Count; i++)
+                for (int i = 0; i < currentBucket.Count; i++)
                 {
-                    var current = checkIfPresent[i];
+                    var current = currentBucket[i];
                     if (current.hashCode == hashCode && current.value.Equals(value))
                     {
                         return false;
@@ -103,8 +103,8 @@ namespace NT.DataStructures
             HashSlot<T> itemToAdd = new HashSlot<T>();
             itemToAdd.hashCode = hashCode;
             itemToAdd.value = value;
-            checkIfPresent.Add(itemToAdd);
-            this.buckets[bucket] = checkIfPresent;
+            currentBucket.Add(itemToAdd);
+            this.buckets[bucket] = currentBucket;
             this.count++;
 
             return true;
@@ -143,28 +143,7 @@ namespace NT.DataStructures
 
         public bool Contains(T value)
         {
-            int hashCode = value.GetHashCode();
-            hashCode = ReHash(hashCode);
-            if (hashCode < 0)
-            {
-                hashCode *= -1;
-            }
-
-            int bucket = hashCode % this.buckets.Length;
-            var checkIfPresent = this.buckets[bucket];
-            if (checkIfPresent != null)
-            {
-                for (int i = 0; i < checkIfPresent.Count; i++)
-                {
-                    var current = checkIfPresent[i];
-                    if (current.hashCode == hashCode && current.value.Equals(value))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return this.ContainsAction(value, (currentBucket, i) => { });
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -208,11 +187,19 @@ namespace NT.DataStructures
 
         public IEnumerator<T> GetEnumerator()
         {
-
             return new HashEnumerator<T>(this);
         }
 
         public bool Remove(T value)
+        {
+            return ContainsAction(value, (currentBucket, i) =>
+            {
+                currentBucket.Remove(currentBucket[i]);
+                this.count--;
+            });
+        }
+
+        private bool ContainsAction(T value, Action<List<HashSlot<T>>, int> action)
         {
             int hashCode = value.GetHashCode();
             hashCode = ReHash(hashCode);
@@ -222,16 +209,15 @@ namespace NT.DataStructures
             }
 
             int bucket = hashCode % this.buckets.Length;
-            var checkIfPresent = this.buckets[bucket];
-            if (checkIfPresent != null)
+            var currentBucket = this.buckets[bucket];
+            if (currentBucket != null)
             {
-                for (int i = 0; i < checkIfPresent.Count; i++)
+                for (int i = 0; i < currentBucket.Count; i++)
                 {
-                    var current = checkIfPresent[i];
+                    var current = currentBucket[i];
                     if (current.hashCode == hashCode && current.value.Equals(value))
                     {
-                        checkIfPresent.Remove(checkIfPresent[i]);
-                        this.count--;
+                        action(currentBucket, i);
                         return true;
                     }
                 }
