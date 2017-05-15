@@ -188,7 +188,7 @@ namespace NT.DataStructures
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new StaticQueueEnumerator<T>(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
