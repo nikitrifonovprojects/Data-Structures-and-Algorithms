@@ -45,6 +45,8 @@
     <Compile Include="HashSlot.cs" />
     <Compile Include="LinkedList.cs" />
     <Compile Include="LinkedListEnumerator.cs" />
+    <Compile Include="StaticQueue.cs" />
+    <Compile Include="StaticQueueEnumerator.cs" />
     <Compile Include="StaticStack.cs" />
     <Compile Include="StaticList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
