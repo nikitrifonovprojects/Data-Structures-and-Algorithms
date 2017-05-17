@@ -409,7 +409,7 @@ namespace NT.DataStructures
                 {
                     if (primes[i] > number)
                     {
-                        return number = primes[i];
+                        number = primes[i];
                     }
                 }
             }
@@ -427,7 +427,7 @@ namespace NT.DataStructures
         private bool isPrime(int number)
         {
             double sqRoot = Math.Sqrt(number);
-            for (int i = 3; i <= sqRoot; i++)
+            for (int i = number; i <= sqRoot; i++)
             {
                 if (number % i == 0)
                 {

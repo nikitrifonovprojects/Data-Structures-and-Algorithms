@@ -19,16 +19,25 @@ namespace NT.ConsoleApp
             dict.Add(7, "item no'7"); 
             dict.Add(8, "item no'8");
             dict.Add(9, "item no'9");
-            
+            var ass = new KeyValuePair<int, string>(10, "item no'10");
+            dict.Add(ass);
+
+
+            Console.WriteLine(dict.Count);
             dict.Remove(3);
-
-
+            Console.WriteLine(dict.Contains(ass));
+            Console.WriteLine(dict.Count);
+            Console.WriteLine(dict.ContainsKey(4));
+            Console.WriteLine(dict.ContainsKey(3));
             Console.WriteLine(dict.ContainsValue("Item no'1"));
 
             foreach (var item in dict)
             {
                 Console.WriteLine(item);
             }
+            
+            dict.Clear();
+            Console.WriteLine(dict.Count);
         }
     }
 }
