@@ -6,8 +6,8 @@ namespace NT.DataStructures
 {
     public class StaticStack<T> : IEnumerable<T>
     {
-        public T[] array;
-        public int size;
+        internal T[] array;
+        internal int size;
         private const int DefaultCapacity = 4;
 
         public StaticStack()
