@@ -6,7 +6,7 @@ namespace NT.DataStructures
 {
     public class LinkedList<T> : ICollection<T>, IEnumerable<T>
     {
-        public LinkedListNode<T> head;
+        internal LinkedListNode<T> head;
         private int count;
 
         public LinkedList()
