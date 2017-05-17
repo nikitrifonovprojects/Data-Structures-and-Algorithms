@@ -8,7 +8,7 @@ namespace NT.DataStructures
     public class Hash<T> : ICollection<T>
     {
         private const int DefaultInitialSize = 17;
-        public List<HashSlot<T>>[] buckets;
+        internal List<HashSlot<T>>[] buckets;
         private int count;
         private int lenght;
 
