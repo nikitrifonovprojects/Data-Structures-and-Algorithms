@@ -246,5 +246,29 @@ namespace NT.DataStructures.Tests
             //Assert
             Assert.IsFalse(enumerate);
         }
+
+        [TestMethod]
+        public void HashUniounWithCorrectly()
+        {
+            //Arrange
+            var hash = new Hash<int>();
+            hash.Add(1);
+            hash.Add(2);
+            hash.Add(5);
+            hash.Add(8);
+            hash.Add(12);
+            hash.Add(66);
+            hash.Add(99);
+            var arrayToUnion = new int[] { 7, 2, 9, 10, 13, 66, 102 };
+            var expectedArry = new int[] { 1, 2, 5, 8, 12, 66, 99, 7, 9, 10, 13, 102 };
+            var actualArray = new int[expectedArry.Length];
+
+            //Act
+            hash.UnionWith(arrayToUnion);
+            hash.CopyTo(actualArray, 0);
+
+            //Assert
+            CollectionAssert.AreEquivalent(expectedArry, actualArray);
+        }
     }
 }

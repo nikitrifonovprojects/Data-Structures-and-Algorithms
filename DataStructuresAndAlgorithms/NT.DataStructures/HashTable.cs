@@ -326,6 +326,7 @@ namespace NT.DataStructures
                         this.entries[i].value = default(TValue);
                         this.freeList = i;
                         this.freeCount++;
+
                         return true;
                     }
                 }
@@ -434,6 +435,7 @@ namespace NT.DataStructures
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -453,6 +455,7 @@ namespace NT.DataStructures
                 d ^= c += b << 54 | b >> -54;
                 a ^= d += c << 32 | c >> 32;
                 a += d << 25 | d >> -25;
+
                 return (int)(a >> 1);
             }
         }
@@ -514,11 +517,13 @@ namespace NT.DataStructures
                         this.index++;
                         return true;
                     }
+
                     this.index++;
                 }
 
                 this.index = this.hashTable.count + 1;
                 this.currentValue = new KeyValuePair<TKey, TValue>();
+
                 return false;
             }
 
