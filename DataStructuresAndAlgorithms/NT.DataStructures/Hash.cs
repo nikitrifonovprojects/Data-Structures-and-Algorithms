@@ -62,6 +62,11 @@ namespace NT.DataStructures
 
         private bool AddIfNotPresent(T value)
         {
+            if (value == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             if (this.count * 2 > this.buckets.Length)
             {
                 IncreaseCapacity();
@@ -186,6 +191,11 @@ namespace NT.DataStructures
 
         private bool ContainsAction(T value, Action<List<HashSlot<T>>, int> action)
         {
+            if (value == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             int hashCode = ReHash(value.GetHashCode()) & 0x7FFFFFFF;
             int bucket = hashCode % this.buckets.Length;
             var currentBucket = this.buckets[bucket];

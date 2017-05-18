@@ -130,9 +130,12 @@ namespace NT.DataStructures.Tests
 
             //Act
             bool contains = hash.Contains(66);
+            hash.Remove(66);
+            bool doesNotCOntain = hash.Contains(66);
 
             //Assert
             Assert.IsTrue(contains);
+            Assert.IsFalse(doesNotCOntain);
         }
 
         [TestMethod]
@@ -168,7 +171,11 @@ namespace NT.DataStructures.Tests
             var expectedArry = new int[] { 2, 5, 8, 66, 99, 102, 9911, 321 };
 
             //Act
-            var actualArray = hash.AsEnumerable<int>().ToList();
+            var actualArray = new List<int>();
+            foreach (var item in hash)
+            {
+                actualArray.Add(item);
+            }
 
             //Assert
             CollectionAssert.AreEquivalent(expectedArry, actualArray);
@@ -231,16 +238,11 @@ namespace NT.DataStructures.Tests
             //Arrange
             var hash = new Hash<int>();
             bool enumerate = false;
-            int count = 0;
 
             //Act
             foreach (var item in hash)
             {
-                count++;
-                if (count > 0)
-                {
-                    enumerate = true;
-                }
+                enumerate = true;
             }
 
             //Assert
@@ -269,6 +271,57 @@ namespace NT.DataStructures.Tests
 
             //Assert
             CollectionAssert.AreEquivalent(expectedArry, actualArray);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HashAddsNullThrowsException()
+        {
+            //Arrange
+            var hash = new Hash<string>();
+            hash.Add("1");
+            hash.Add("2");
+            hash.Add("5");
+            string empty = null;
+            hash.Add(empty);
+
+            //Act
+
+            //Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HashRemoveNullThrowsException()
+        {
+            //Arrange
+            var hash = new Hash<string>();
+            hash.Add("1");
+            hash.Add("2");
+            hash.Add("5");
+            string empty = null;
+            hash.Remove(empty);
+
+            //Act
+
+            //Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HashContainsNullThrowsException()
+        {
+            //Arrange
+            var hash = new Hash<string>();
+            hash.Add("1");
+            hash.Add("2");
+            hash.Add("5");
+            string empty = null;
+            hash.Contains(empty);
+
+            //Act
+
+            //Assert
         }
     }
 }
