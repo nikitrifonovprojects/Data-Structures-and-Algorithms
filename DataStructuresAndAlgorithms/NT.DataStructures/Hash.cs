@@ -235,7 +235,7 @@ namespace NT.DataStructures
                 {
                     if (primes[i] > number)
                     {
-                        return number = primes[i];
+                        return primes[i];
                     }
                 }
             }

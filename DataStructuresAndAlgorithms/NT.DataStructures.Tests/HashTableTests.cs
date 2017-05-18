@@ -190,9 +190,12 @@ namespace NT.DataStructures.Tests
             dictionary.Add(5, "item no'5");
 
             var containsItem = dictionary.ContainsKey(2);
+            dictionary.Remove(2);
+            var doesNotContain = dictionary.ContainsKey(2);
 
             //Assert
             Assert.IsTrue(containsItem);
+            Assert.IsFalse(doesNotContain);
         }
 
         [TestMethod]
@@ -209,9 +212,12 @@ namespace NT.DataStructures.Tests
             dictionary.Add(5, "item no'5");
 
             var containsItem = dictionary.ContainsValue("Item no'4");
+            dictionary.Remove(4);
+            var doesNotContain = dictionary.ContainsValue("Item no'4");
 
             //Assert
             Assert.IsTrue(containsItem);
+            Assert.IsFalse(doesNotContain);
         }
 
         [TestMethod]
@@ -240,16 +246,11 @@ namespace NT.DataStructures.Tests
             //Arrange
             var dictionary = new HashTable<int, string>();
             bool enumerate = false;
-            int count = 0;
 
             //Act
             foreach (var item in dictionary)
             {
-                count++;
-                if (count > 0)
-                {
-                    enumerate = true;
-                }
+                enumerate = true;
             }
 
             //Assert
@@ -340,7 +341,7 @@ namespace NT.DataStructures.Tests
         {
             //Arrange
             var dictionary = new HashTable<int, string>();
-         
+
             var itemOne = new KeyValuePair<int, string>(1, "Item no'1");
             var itemTwo = new KeyValuePair<int, string>(2, "Item no'2");
             var itemThree = new KeyValuePair<int, string>(3, "Item no'3");
@@ -358,7 +359,7 @@ namespace NT.DataStructures.Tests
             dictionary.Add(itemThree);
             dictionary.Add(itemFour);
             dictionary.Add(itemFive);
-            
+
             bool found = dictionary.TryGetValue(2, out foundResult);
             bool notFound = dictionary.TryGetValue(6, out notFoundResult);
 
@@ -367,7 +368,206 @@ namespace NT.DataStructures.Tests
             Assert.IsFalse(notFound);
             Assert.AreEqual(expectedFoundResult, foundResult);
             Assert.AreEqual(expectedNotFoundResult, notFoundResult);
+        }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void HashTableAddsDuplicateThrowsException()
+        {
+            //Arrange
+            var dictionary = new HashTable<int, string>();
+
+            //Act
+            dictionary.Add(1, "Item no'1");
+            dictionary.Add(2, "Item no'2");
+            dictionary.Add(3, "Item no'3");
+            dictionary.Add(4, "Item no'4");
+            dictionary.Add(5, "item no'5");
+            dictionary.Add(3, "Item no'3");
+
+            //Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void HashTableAccessByBracketsWithWrongKeyThrowsException()
+        {
+            //Arrange
+            var dictionary = new HashTable<int, string>();
+
+            //Act
+            dictionary.Add(1, "Item no'1");
+            dictionary.Add(2, "Item no'2");
+            dictionary.Add(3, "Item no'3");
+            dictionary.Add(4, "Item no'4");
+            dictionary.Add(5, "item no'5");
+            var result = dictionary[6];
+            //Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HashTableAccessByBracketsWithNullKeyThrowsException()
+        {
+            //Arrange
+            var dictionary = new HashTable<string, string>();
+            string input = null;
+            //Act
+            dictionary.Add("1", "Item no'1");
+            dictionary.Add("2", "Item no'2");
+            dictionary.Add("3", "Item no'3");
+            dictionary.Add("4", "Item no'4");
+            dictionary.Add("5", "item no'5");
+            var result = dictionary[input];
+            //Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HashTableAddWithNullKeyThrowsException()
+        {
+            //Arrange
+            var dictionary = new HashTable<string, string>();
+
+            //Act
+            dictionary.Add(null, "Item no'1");
+            dictionary.Add("2", "Item no'2");
+            dictionary.Add("3", "Item no'3");
+            dictionary.Add("4", "Item no'4");
+            dictionary.Add("5", "item no'5");
+            //Assert
+        }
+
+        [TestMethod]
+        public void HashTableChangeValueByBracketsWorksCorrectly()
+        {
+            //Arrange
+            var dictionary = new HashTable<string, string>();
+            string add = "Item no'6";
+            //Act
+            dictionary.Add("1", "Item no'1");
+            dictionary.Add("2", "Item no'2");
+            dictionary.Add("3", "Item no'3");
+            dictionary.Add("4", "Item no'4");
+            dictionary.Add("5", "item no'5");
+            dictionary["4"] = add;
+
+            var result = dictionary["4"];
+
+            //Assert
+            Assert.AreEqual(result, add);
+
+        }
+
+        [TestMethod]
+        public void HashTableAddByBracketsWorksCorrectly()
+        {
+            //Arrange
+            var dictionary = new HashTable<string, string>();
+            string add = "Item no'6";
+            //Act
+            dictionary.Add("1", "Item no'1");
+            dictionary.Add("2", "Item no'2");
+            dictionary.Add("3", "Item no'3");
+            dictionary.Add("4", "Item no'4");
+            dictionary.Add("5", "item no'5");
+            dictionary["6"] = add;
+
+            var result = dictionary["6"];
+
+            //Assert
+            Assert.AreEqual(result, add);
+
+        }
+
+        [TestMethod]
+        public void HashTableContainsByValueNullThrowsException()
+        {
+            //Arrange
+            var dictionary = new HashTable<int, string>();
+            string add = null;
+            //Act
+            dictionary.Add(1, "Item no'1");
+            dictionary.Add(2, "Item no'2");
+            dictionary.Add(3, "Item no'3");
+            dictionary.Add(4, "Item no'4");
+            dictionary.Add(5, "item no'5");
+
+            var containsItem = dictionary.ContainsValue(add);
+
+            //Assert
+            Assert.IsFalse(containsItem);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HashTableAddByValueNullThrowsException()
+        {
+            //Arrange
+            var dictionary = new HashTable<string, string>();
+            string add = null;
+            //Act
+            dictionary.Add("1", "Item no'1");
+            dictionary.Add(add, "a");
+
+            //Assert
+        }
+
+        [TestMethod]
+        public void HashTableCountsKeyAndValueCollectionCorrectly()
+        {
+            //Arrange
+            var dictionary = new HashTable<int, string>();
+            int expected = 3;
+            //Act
+            dictionary.Add(1, "Item no'1");
+            dictionary.Add(2, "Item no'2");
+            dictionary.Add(3, "Item no'3");
+
+            var count = dictionary.Keys;
+            var values = dictionary.Values;
+
+            //Assert
+            Assert.AreEqual(expected, count.Count);
+            Assert.AreEqual(expected, values.Count);
+        }
+
+        [TestMethod]
+        public void HashTableCountsKeyAndValueCollectionWithItemsCorrectly()
+        {
+            //Arrange
+            var dictionary = new HashTable<int, string>();
+            var expected = new List<int> { 1, 2, 3 };
+            var expectedValues = new List<string> { "Item no'1", "Item no'2", "Item no'3" };
+
+            //Act
+            dictionary.Add(1, "Item no'1");
+            dictionary.Add(2, "Item no'2");
+            dictionary.Add(3, "Item no'3");
+            var count = dictionary.Keys.ToList();
+            var values = dictionary.Values.ToList();
+
+            //Assert
+            CollectionAssert.AreEqual(expected, count);
+            CollectionAssert.AreEqual(expectedValues, values);
+        }
+
+        [TestMethod]
+        public void HashTableCountsKeyAndValueCollectionWithNoItemsCorrectly()
+        {
+            //Arrange
+            var dictionary = new HashTable<int, string>();
+            var expected = new List<int> { 0, 0, 0 };
+            var expectedValues = new List<string> { null, null, null };
+
+            //Act
+            
+            var count = dictionary.Keys.ToList();
+            var values = dictionary.Values.ToList();
+
+            //Assert
+            CollectionAssert.AreEqual(expected, count);
+            CollectionAssert.AreEqual(expectedValues, values);
         }
     }
 }
