@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NT.DataStructures
 {
-    public class StaticList<T> : ICollection<T>, IEnumerable<T>
+    public class StaticList<T> : ICollection<T>
     {
         private const int DefaultCapacity = 4;
         private T[] items;
@@ -33,17 +32,16 @@ namespace NT.DataStructures
             }
         }
 
-        public StaticList(IEnumerable<T> collection)
+        public StaticList(ICollection<T> collection)
         {
             if (collection == null)
             {
                 throw new ArgumentNullException("The collection cannot be null!");
             }
 
-            ICollection<T> colect = collection as ICollection<T>;
-            if (colect != null)
+            if (collection != null)
             {
-                int count = colect.Count;
+                int count = collection.Count;
                 if (count == 0)
                 {
                     this.items = new T[0];
@@ -51,7 +49,7 @@ namespace NT.DataStructures
                 else
                 {
                     this.items = new T[count];
-                    colect.CopyTo(this.items, 0);
+                    collection.CopyTo(this.items, 0);
                     this.size = count;
                 }
             }
@@ -62,13 +60,13 @@ namespace NT.DataStructures
             }
         }
 
-        public int Capacity
+        private int Capacity
         {
             get
             {
                 return this.items.Length;
             }
-            private set
+            set
             {
                 if (value < this.size)
                 {
