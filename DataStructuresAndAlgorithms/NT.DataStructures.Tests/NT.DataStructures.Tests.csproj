@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="HashTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HashTableTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

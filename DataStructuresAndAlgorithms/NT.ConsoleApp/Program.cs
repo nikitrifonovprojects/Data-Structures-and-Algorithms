@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NT.DataStructures;
 
 namespace NT.ConsoleApp
@@ -8,36 +9,7 @@ namespace NT.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var dict = new HashTable<int, string>();
-
-            dict.Add(1, "Item no'1"); 
-            dict.Add(2, "Item no'2");
-            dict.Add(3, "Item no'3");
-            dict.Add(4, "Item no'4");
-            dict.Add(5, "item no'5");
-            dict.Add(6, "Item no'6");
-            dict.Add(7, "item no'7"); 
-            dict.Add(8, "item no'8");
-            dict.Add(9, "item no'9");
-            var ass = new KeyValuePair<int, string>(10, "item no'10");
-            dict.Add(ass);
-
-
-            Console.WriteLine(dict.Count);
-            dict.Remove(3);
-            Console.WriteLine(dict.Contains(ass));
-            Console.WriteLine(dict.Count);
-            Console.WriteLine(dict.ContainsKey(4));
-            Console.WriteLine(dict.ContainsKey(3));
-            Console.WriteLine(dict.ContainsValue("Item no'1"));
-
-            foreach (var item in dict)
-            {
-                Console.WriteLine(item);
-            }
             
-            dict.Clear();
-            Console.WriteLine(dict.Count);
         }
     }
 }

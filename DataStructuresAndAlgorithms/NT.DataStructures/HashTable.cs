@@ -53,7 +53,7 @@ namespace NT.DataStructures
         {
             get
             {
-                return this.entries.Where(x => x.hashCode >= 0).Select(x => x.key).ToList();
+                return this.entries.Where(x => x.HashCode >= 0).Select(x => x.Key).ToList();
             }
         }
 
@@ -61,7 +61,7 @@ namespace NT.DataStructures
         {
             get
             {
-                return this.entries.Where(x => x.hashCode >= 0).Select(x => x.value).ToList();
+                return this.entries.Where(x => x.HashCode >= 0).Select(x => x.Value).ToList();
             }
         }
 
@@ -72,7 +72,7 @@ namespace NT.DataStructures
                 int i = FindEntry(key);
                 if (i >= 0)
                 {
-                    return this.entries[i].value;
+                    return this.entries[i].Value;
                 }
                 else
                 {
@@ -118,16 +118,16 @@ namespace NT.DataStructures
 
             int hashCode = ReHash(key.GetHashCode()) & 0x7FFFFFFF;
             int targetBucket = hashCode % this.buckets.Length;
-            for (int i = this.buckets[targetBucket]; i >= 0; i = this.entries[i].next)
+            for (int i = this.buckets[targetBucket]; i >= 0; i = this.entries[i].Next)
             {
-                if (this.entries[i].hashCode == hashCode && this.entries[i].key.Equals(key))
+                if (this.entries[i].HashCode == hashCode && this.entries[i].Key.Equals(key))
                 {
                     if (add)
                     {
                         throw new ArgumentException("Cannot add duplicate!");
                     }
 
-                    this.entries[i].value = value;
+                    this.entries[i].Value = value;
                     return;
                 }
             }
@@ -136,7 +136,7 @@ namespace NT.DataStructures
             if (this.freeCount > 0)
             {
                 index = this.freeList;
-                this.freeList = this.entries[index].next;
+                this.freeList = this.entries[index].Next;
                 this.freeCount--;
             }
             else
@@ -151,10 +151,10 @@ namespace NT.DataStructures
                 this.count++;
             }
 
-            this.entries[index].hashCode = hashCode;
-            this.entries[index].next = this.buckets[targetBucket];
-            this.entries[index].key = key;
-            this.entries[index].value = value;
+            this.entries[index].HashCode = hashCode;
+            this.entries[index].Next = this.buckets[targetBucket];
+            this.entries[index].Key = key;
+            this.entries[index].Value = value;
             this.buckets[targetBucket] = index;
         }
 
@@ -182,19 +182,19 @@ namespace NT.DataStructures
             {
                 for (int i = 0; i < this.count; i++)
                 {
-                    if (newEntries[i].hashCode != -1)
+                    if (newEntries[i].HashCode != -1)
                     {
-                        newEntries[i].hashCode = ReHash(newEntries[i].key.GetHashCode()) & 0x7FFFFFFF;
+                        newEntries[i].HashCode = ReHash(newEntries[i].Key.GetHashCode()) & 0x7FFFFFFF;
                     }
                 }
             }
 
             for (int i = 0; i < this.count; i++)
             {
-                if (newEntries[i].hashCode >= 0)
+                if (newEntries[i].HashCode >= 0)
                 {
-                    int bucket = newEntries[i].hashCode % newSize;
-                    newEntries[i].next = newBuckets[bucket];
+                    int bucket = newEntries[i].HashCode % newSize;
+                    newEntries[i].Next = newBuckets[bucket];
                     newBuckets[bucket] = i;
                 }
             }
@@ -221,7 +221,7 @@ namespace NT.DataStructures
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
             int i = FindEntry(item.Key);
-            if (i >= 0 && this.entries[i].value.Equals(item.Value))
+            if (i >= 0 && this.entries[i].Value.Equals(item.Value))
             {
                 return true;
             }
@@ -235,7 +235,7 @@ namespace NT.DataStructures
             {
                 for (int i = 0; i < this.count; i++)
                 {
-                    if (this.entries[i].hashCode >= 0 && this.entries[i].value == null)
+                    if (this.entries[i].HashCode >= 0 && this.entries[i].Value == null)
                     {
                         return true;
                     }
@@ -245,7 +245,7 @@ namespace NT.DataStructures
             {
                 for (int i = 0; i < this.count; i++)
                 {
-                    if (this.entries[i].hashCode >= 0 && this.entries[i].value.Equals(value))
+                    if (this.entries[i].HashCode >= 0 && this.entries[i].Value.Equals(value))
                     {
                         return true;
                     }
@@ -276,9 +276,9 @@ namespace NT.DataStructures
             HashTableEntry[] entries = this.entries;
             for (int i = 0; i < count; i++)
             {
-                if (entries[i].hashCode >= 0)
+                if (entries[i].HashCode >= 0)
                 {
-                    array[arrayIndex++] = new KeyValuePair<TKey, TValue>(entries[i].key, entries[i].value);
+                    array[arrayIndex++] = new KeyValuePair<TKey, TValue>(entries[i].Key, entries[i].Value);
                 }
             }
         }
@@ -286,7 +286,7 @@ namespace NT.DataStructures
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
             int i = FindEntry(item.Key);
-            if (i >= 0 && this.entries[i].value.Equals(item.Value))
+            if (i >= 0 && this.entries[i].Value.Equals(item.Value))
             {
                 Remove(item.Key);
                 return true;
@@ -307,23 +307,23 @@ namespace NT.DataStructures
                 int hashCode = ReHash(key.GetHashCode()) & 0x7FFFFFFF;
                 int bucket = hashCode % this.buckets.Length;
                 int last = -1;
-                for (int i = this.buckets[bucket]; i >= 0; last = i, i = this.entries[i].next)
+                for (int i = this.buckets[bucket]; i >= 0; last = i, i = this.entries[i].Next)
                 {
-                    if (this.entries[i].hashCode == hashCode && this.entries[i].key.Equals(key))
+                    if (this.entries[i].HashCode == hashCode && this.entries[i].Key.Equals(key))
                     {
                         if (last < 0)
                         {
-                            this.buckets[bucket] = this.entries[i].next;
+                            this.buckets[bucket] = this.entries[i].Next;
                         }
                         else
                         {
-                            this.entries[last].next = this.entries[i].next;
+                            this.entries[last].Next = this.entries[i].Next;
                         }
 
-                        this.entries[i].hashCode = -1;
-                        this.entries[i].next = this.freeList;
-                        this.entries[i].key = default(TKey);
-                        this.entries[i].value = default(TValue);
+                        this.entries[i].HashCode = -1;
+                        this.entries[i].Next = this.freeList;
+                        this.entries[i].Key = default(TKey);
+                        this.entries[i].Value = default(TValue);
                         this.freeList = i;
                         this.freeCount++;
 
@@ -340,7 +340,7 @@ namespace NT.DataStructures
             int i = FindEntry(key);
             if (i >= 0)
             {
-                value = this.entries[i].value;
+                value = this.entries[i].Value;
                 return true;
             }
 
@@ -358,9 +358,9 @@ namespace NT.DataStructures
             if (this.buckets != null)
             {
                 int hashCode = ReHash(key.GetHashCode()) & 0x7FFFFFFF;
-                for (int i = this.buckets[hashCode % this.buckets.Length]; i >= 0; i = this.entries[i].next)
+                for (int i = this.buckets[hashCode % this.buckets.Length]; i >= 0; i = this.entries[i].Next)
                 {
-                    if (this.entries[i].hashCode == hashCode && this.entries[i].key.Equals(key))
+                    if (this.entries[i].HashCode == hashCode && this.entries[i].Key.Equals(key))
                     {
                         return i;
                     }
@@ -462,10 +462,13 @@ namespace NT.DataStructures
 
         public struct HashTableEntry
         {
-            internal int hashCode;
-            internal int next;
-            internal TKey key;
-            internal TValue value;
+            internal int HashCode { get; set; }
+
+            internal int Next { get; set; }
+
+            internal TKey Key { get; set; }
+
+            internal TValue Value { get; set; }
         }
 
         public class HashTableEnumerator : IEnumerator<KeyValuePair<TKey, TValue>>
@@ -511,9 +514,9 @@ namespace NT.DataStructures
             {
                 while ((uint)this.index < (uint)this.hashTable.count)
                 {
-                    if (this.hashTable.entries[this.index].hashCode >= 0)
+                    if (this.hashTable.entries[this.index].HashCode >= 0)
                     {
-                        this.currentValue = new KeyValuePair<TKey, TValue>(this.hashTable.entries[this.index].key, this.hashTable.entries[this.index].value);
+                        this.currentValue = new KeyValuePair<TKey, TValue>(this.hashTable.entries[this.index].Key, this.hashTable.entries[this.index].Value);
                         this.index++;
                         return true;
                     }
