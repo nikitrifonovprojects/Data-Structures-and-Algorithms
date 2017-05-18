@@ -49,14 +49,16 @@ namespace NT.DataStructures
                     var tempArray = this.hash.buckets[this.index].ToArray();
                     while (tempArray.Length > this.innerIndex)
                     {
-                        this.current = tempArray[this.innerIndex].value;
+                        this.current = tempArray[this.innerIndex].Value;
                         this.innerIndex++;
                         return true;
                     }
                 }
+
                 this.innerIndex = 0;
                 this.index++;
             }
+
             this.current = default(T);
             return false;
         }
