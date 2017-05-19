@@ -284,6 +284,7 @@ namespace NT.DataStructures
                         {
                             return node;
                         }
+
                         node = node.next;
                     } while (node != this.head);
                 }
@@ -295,6 +296,7 @@ namespace NT.DataStructures
                         {
                             return node;
                         }
+
                         node = node.next;
                     } while (node != this.head);
                 }
@@ -335,6 +337,7 @@ namespace NT.DataStructures
                         {
                             return node;
                         }
+
                         node = node.prev;
                     } while (node != last);
                 }
