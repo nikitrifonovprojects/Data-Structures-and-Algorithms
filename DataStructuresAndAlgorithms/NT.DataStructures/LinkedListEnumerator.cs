@@ -78,8 +78,8 @@ namespace NT.DataStructures
             }
 
             ++this.index;
-            this.current = this.node.Content;
-            this.node = this.node.Next;
+            this.current = this.node.content;
+            this.node = this.node.next;
             if (this.node == this.list.head)
             {
                 this.node = null;
