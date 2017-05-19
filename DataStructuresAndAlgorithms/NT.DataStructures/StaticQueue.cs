@@ -107,7 +107,6 @@ namespace NT.DataStructures
                 {
                     Array.Copy(this.array, this.head, newArray, 0, this.array.Length - this.head);
                     Array.Copy(this.array, 0, newArray, this.array.Length - this.head, this.tail);
-
                 }
             }
 

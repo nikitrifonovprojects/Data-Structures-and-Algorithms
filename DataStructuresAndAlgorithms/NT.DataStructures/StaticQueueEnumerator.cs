@@ -21,39 +21,32 @@ namespace NT.DataStructures
         {
             get
             {
-                if (this.index < 0)
-                {
-                    if (this.index == -1)
-                    {
-                        throw new InvalidOperationException("Enumaration not started!");
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Enumaration ended");
-                    }
-                }
-
-                return this.current;
+                return ReturnCurrent();
             }
+        }
+
+        private T ReturnCurrent()
+        {
+            if (this.index < 0)
+            {
+                if (this.index == -1)
+                {
+                    throw new InvalidOperationException("Enumaration not started!");
+                }
+                else
+                {
+                    throw new InvalidOperationException("Enumaration ended");
+                }
+            }
+
+            return this.current;
         }
 
         object IEnumerator.Current
         {
             get
             {
-                if (this.index < 0)
-                {
-                    if (this.index == -1)
-                    {
-                        throw new InvalidOperationException("Enumaration not started!");
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Enumaration ended");
-                    }
-                }
-
-                return this.current;
+                return ReturnCurrent();
             }
         }
 
