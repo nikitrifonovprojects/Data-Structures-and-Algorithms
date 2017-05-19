@@ -54,6 +54,7 @@
     <Compile Include="StaticListTests.cs" />
     <Compile Include="LinkedListTests.cs" />
     <Compile Include="StaticStackTests.cs" />
+    <Compile Include="StaticQueueTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
