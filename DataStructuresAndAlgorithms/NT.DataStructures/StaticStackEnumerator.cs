@@ -21,17 +21,7 @@ namespace NT.DataStructures
         {
             get
             {
-                if (this.index == -2)
-                {
-                    throw new InvalidOperationException("Enumeration not started!");
-                }
-
-                if (this.index == -1)
-                {
-                    throw new InvalidOperationException("Enumeration ended!");
-                }
-
-                return this.current;
+                return ReturnCurrent();
             }
         }
 
@@ -39,18 +29,23 @@ namespace NT.DataStructures
         {
             get
             {
-                if (this.index == -2)
-                {
-                    throw new InvalidOperationException("Enumeration not started!");
-                }
-
-                if (this.index == -1)
-                {
-                    throw new InvalidOperationException("Enumeration ended!");
-                }
-
-                return this.current;
+                return ReturnCurrent();
             }
+        }
+
+        private T ReturnCurrent()
+        {
+            if (this.index == -2)
+            {
+                throw new InvalidOperationException("Enumeration not started!");
+            }
+
+            if (this.index == -1)
+            {
+                throw new InvalidOperationException("Enumeration ended!");
+            }
+
+            return this.current;
         }
 
         public void Dispose()

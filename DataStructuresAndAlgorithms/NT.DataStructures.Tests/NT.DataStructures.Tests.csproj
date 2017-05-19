@@ -53,6 +53,7 @@
     <Compile Include="HashTableTests.cs" />
     <Compile Include="StaticListTests.cs" />
     <Compile Include="LinkedListTests.cs" />
+    <Compile Include="StaticStackTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

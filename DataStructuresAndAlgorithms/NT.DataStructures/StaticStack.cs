@@ -22,20 +22,18 @@ namespace NT.DataStructures
             this.size = 0;
         }
 
-        public StaticStack(IEnumerable<T> collection)
+        public StaticStack(ICollection<T> collection)
         {
             if (collection == null)
             {
                 throw new ArgumentNullException();
             }
 
-            ICollection<T> col = collection as ICollection<T>;
-
-            if (col != null)
+            if (collection != null)
             {
-                int count = col.Count;
+                int count = collection.Count;
                 this.array = new T[count];
-                col.CopyTo(this.array, 0);
+                collection.CopyTo(this.array, 0);
                 this.size = count;
             }
         }
