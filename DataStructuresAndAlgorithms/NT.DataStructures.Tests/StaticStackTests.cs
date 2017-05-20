@@ -197,15 +197,20 @@ namespace NT.DataStructures.Tests
         public void StackDoesntEnumerateEmpty()
         {
             //Arrange
-            var stack = new StaticStack<string>(5);
+            var stack = new StaticStack<string>();
             var expected = false;
 
             //Act
+
+            foreach (var item in stack)
+            {
+                expected = true;
+            }
+
             stack.Push("one");
             stack.Push("two");
             stack.Push("three");
             stack.Push("four");
-            stack.Push("five");
             stack.Clear();
 
             foreach (var item in stack)
