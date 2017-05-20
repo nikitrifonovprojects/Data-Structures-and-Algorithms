@@ -71,15 +71,17 @@ namespace NT.DataStructures.Tests
             //Arrange
             var queue = new StaticQueue<string>(4);
             string expected = "one";
+            int expectedCount = 2;
 
             //Act
             queue.Enqueue("one");
             queue.Enqueue("two");
-
+            int count = queue.Count;
             var result = queue.Peek();
 
             //Assert
             Assert.AreEqual(expected, result);
+            Assert.AreEqual(expectedCount, count);
         }
 
         [TestMethod]
@@ -88,12 +90,16 @@ namespace NT.DataStructures.Tests
             //Arrange
             var queue = new StaticQueue<string>(4);
             string expected = "one";
+            int expectedCount = 2;
 
             //Act
             queue.Enqueue("one");
+            queue.Enqueue("two");
+            int count = queue.Count;
 
             //Assert
             Assert.AreEqual(expected, queue.Peek());
+            Assert.AreEqual(expectedCount, count);
         }
 
         [TestMethod]
@@ -102,6 +108,7 @@ namespace NT.DataStructures.Tests
             //Arrange
             var queue = new StaticQueue<string>(4);
             string expected = "one";
+            int expectedCount = 3;
 
             //Act
             queue.Enqueue("one");
@@ -110,9 +117,11 @@ namespace NT.DataStructures.Tests
             queue.Enqueue("four");
 
             string result = queue.Dequeue();
+            int count = queue.Count;
 
             //Assert
             Assert.AreEqual(expected, result);
+            Assert.AreEqual(expectedCount, count);
         }
 
         [TestMethod]
