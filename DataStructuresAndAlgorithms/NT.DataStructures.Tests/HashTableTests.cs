@@ -481,7 +481,7 @@ namespace NT.DataStructures.Tests
         }
 
         [TestMethod]
-        public void HashTableContainsByValueNullThrowsException()
+        public void HashTableContainsByValueNullWorksCorrectly()
         {
             //Arrange
             var dictionary = new HashTable<int, string>();
@@ -492,11 +492,11 @@ namespace NT.DataStructures.Tests
             dictionary.Add(3, "Item no'3");
             dictionary.Add(4, "Item no'4");
             dictionary.Add(5, "item no'5");
-
-            var containsItem = dictionary.ContainsValue(add);
+            dictionary.Add(6, add);
+            bool containsItem = dictionary.ContainsValue(add);
 
             //Assert
-            Assert.IsFalse(containsItem);
+            Assert.IsTrue(containsItem);
         }
 
         [TestMethod]
