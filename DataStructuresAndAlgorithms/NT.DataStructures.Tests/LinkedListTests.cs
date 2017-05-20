@@ -193,7 +193,7 @@ namespace NT.DataStructures.Tests
         }
 
         [TestMethod]
-        public void LinkedListClersCorrectly()
+        public void LinkedListClearsCorrectly()
         {
             //Arrange
             var list = new LinkedList<string>();
@@ -258,6 +258,12 @@ namespace NT.DataStructures.Tests
             bool result = false;
 
             //Act
+
+            foreach (var item in list)
+            {
+                result = true;
+            }
+
             list.Add("one");
             list.Add("two");
             list.Add("three");

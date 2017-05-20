@@ -77,7 +77,7 @@ namespace NT.DataStructures
                 return false;
             }
 
-            ++this.index;
+            this.index++;
             this.current = this.node.content;
             this.node = this.node.next;
             if (this.node == this.list.head)
