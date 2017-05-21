@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NT.Algorithms;
 using NT.DataStructures;
 
 namespace NT.ConsoleApp
@@ -9,7 +10,7 @@ namespace NT.ConsoleApp
     {
         static void Main(string[] args)
         {
-            
+
         }
     }
 }
