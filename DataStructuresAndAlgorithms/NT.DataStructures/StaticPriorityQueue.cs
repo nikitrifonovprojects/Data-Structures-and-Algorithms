@@ -61,6 +61,11 @@ namespace NT.DataStructures
 
         public void Enqueue(IEnumerable<T> collection)
         {
+            if (collection == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var enumerator = collection.GetEnumerator();
 
             while (enumerator.MoveNext())
@@ -71,6 +76,11 @@ namespace NT.DataStructures
 
         public void Enqueue(int priority, IEnumerable<T> collection)
         {
+            if (collection == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var enumerator = collection.GetEnumerator();
             while (enumerator.MoveNext())
             {
@@ -114,9 +124,28 @@ namespace NT.DataStructures
             return false;
         }
 
+        public T[] ToArray()
+        {
+            T[] newArray = new T[this.count];
+            if (this.count == 0)
+            {
+                return newArray;
+            }
+
+            int index = 0;
+            foreach (var chain in this.priorityChains.Where(x => x.Value.Count > 0).Select(x => x.Value))
+            {
+                Array.Copy(chain.ToArray(), 0, newArray, index, chain.Count);
+                index += chain.Count;
+            }
+
+            return newArray;
+        }
+
         public void Clear()
         {
             this.priorityChains.Clear();
+            this.count = 0;
         }
     }
 }
