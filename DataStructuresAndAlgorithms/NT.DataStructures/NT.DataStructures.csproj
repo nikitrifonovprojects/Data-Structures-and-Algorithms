@@ -46,6 +46,7 @@
     <Compile Include="HashTable.cs" />
     <Compile Include="LinkedList.cs" />
     <Compile Include="LinkedListEnumerator.cs" />
+    <Compile Include="StaticPriorityQueue.cs" />
     <Compile Include="StaticQueue.cs" />
     <Compile Include="StaticQueueEnumerator.cs" />
     <Compile Include="StaticStack.cs" />
