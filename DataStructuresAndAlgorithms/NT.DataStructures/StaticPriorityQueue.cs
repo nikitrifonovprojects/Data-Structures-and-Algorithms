@@ -13,8 +13,9 @@ namespace NT.DataStructures
         {
             if (capacity < 0)
             {
-                throw new ArgumentException("The capacity cannot be less than 0!");
+                throw new ArgumentOutOfRangeException("The capacity cannot be less than 0!");
             }
+
             this.priorityChains = new SortedList<int, Queue<T>>(capacity);
             this.count = 0;
         }
@@ -41,7 +42,7 @@ namespace NT.DataStructures
         {
             if (priority < 0)
             {
-                throw new ArgumentException("The priority cannot be less than 0!");
+                throw new ArgumentOutOfRangeException("The priority cannot be less than 0!");
             }
 
             if (this.priorityChains.ContainsKey(priority))
@@ -55,6 +56,25 @@ namespace NT.DataStructures
                 newQueue.Enqueue(value);
                 this.priorityChains.Add(priority, newQueue);
                 this.count++;
+            }
+        }
+
+        public void Enqueue(IEnumerable<T> collection)
+        {
+            var enumerator = collection.GetEnumerator();
+
+            while (enumerator.MoveNext())
+            {
+                Enqueue(enumerator.Current);
+            }
+        }
+
+        public void Enqueue(int priority, IEnumerable<T> collection)
+        {
+            var enumerator = collection.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                Enqueue(priority, enumerator.Current);
             }
         }
 
