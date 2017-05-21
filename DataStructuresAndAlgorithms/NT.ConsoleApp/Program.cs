@@ -10,7 +10,7 @@ namespace NT.ConsoleApp
     {
         static void Main(string[] args)
         {
-
+            
         }
     }
 }
