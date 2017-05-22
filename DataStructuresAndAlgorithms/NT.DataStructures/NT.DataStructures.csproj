@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryTree.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HashEnumerator.cs" />
     <Compile Include="HashSlot.cs" />
