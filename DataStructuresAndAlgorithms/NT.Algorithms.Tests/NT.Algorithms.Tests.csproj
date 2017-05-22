@@ -53,6 +53,7 @@
     <Compile Include="SelectionSortTests.cs" />
     <Compile Include="MergeSortTests.cs" />
     <Compile Include="QuickSortTests.cs" />
+    <Compile Include="BinarySearchTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
