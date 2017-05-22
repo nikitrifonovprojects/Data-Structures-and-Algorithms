@@ -6,18 +6,21 @@
         {
             for (int i = 0; i < array.Length - 1; i++)
             {
-                int minElement = i;
+                int minElementIndex = i;
                 for (int j = i + 1; j < array.Length; j++)
                 {
-                    if (array[j] < array[minElement])
+                    if (array[j] < array[minElementIndex])
                     {
-                        minElement = j;
+                        minElementIndex = j;
                     }
                 }
 
-                int temp = array[i];
-                array[i] = array[minElement];
-                array[minElement] = temp;
+                if (array[i] != array[minElementIndex])
+                {
+                    int temp = array[i];
+                    array[i] = array[minElementIndex];
+                    array[minElementIndex] = temp;
+                }
             }
         }
     }
