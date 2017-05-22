@@ -291,5 +291,33 @@ namespace NT.DataStructures.Tests
             //Assert
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void QueueDifferentPrioritiesWorksCorrectly()
+        {
+            //Arrange
+            var queue = new StaticPriorityQueue<string>();
+            var expected = new string[] { "add '8", "add '3", "add '5", "add '2", "add '10", "add '1", "add '4", "add '7", "add '9", "add '6" };
+            var result = new string[10];
+            //Act
+            queue.Enqueue(1, "add '1");
+            queue.Enqueue(2, "add '2");
+            queue.Enqueue(5, "add '3");
+            queue.Enqueue(1, "add '4");
+            queue.Enqueue(3, "add '5");
+            queue.Enqueue(0, "add '6");
+            queue.Enqueue(1, "add '7");
+            queue.Enqueue(10, "add '8");
+            queue.Enqueue(1, "add '9");
+            queue.Enqueue(2, "add '10");
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = queue.Dequeue();
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(expected, result);
+        }
     }
 }

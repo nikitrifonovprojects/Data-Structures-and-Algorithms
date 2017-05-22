@@ -45,18 +45,13 @@ namespace NT.DataStructures
                 throw new ArgumentOutOfRangeException("The priority cannot be less than 0!");
             }
 
-            if (this.priorityChains.ContainsKey(priority))
+            if (!this.priorityChains.ContainsKey(priority))
             {
-                this.priorityChains[priority].Enqueue(value);
-                this.count++;
+                this.priorityChains.Add(priority, new Queue<T>());
             }
-            else
-            {
-                var newQueue = new Queue<T>();
-                newQueue.Enqueue(value);
-                this.priorityChains.Add(priority, newQueue);
-                this.count++;
-            }
+
+            this.priorityChains[priority].Enqueue(value);
+            this.count++;
         }
 
         public void Enqueue(IEnumerable<T> collection)
