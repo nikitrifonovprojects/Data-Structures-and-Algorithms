@@ -54,6 +54,7 @@
     <Compile Include="MergeSortTests.cs" />
     <Compile Include="QuickSortTests.cs" />
     <Compile Include="BinarySearchTests.cs" />
+    <Compile Include="InterpolationSearchTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
