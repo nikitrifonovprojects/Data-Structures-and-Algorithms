@@ -27,9 +27,13 @@
             {
                 if (data[j] <= pivot)
                 {
-                    temp = data[j];
-                    data[j] = data[i];
-                    data[i] = temp;
+                    if (i != j)
+                    {
+                        temp = data[j];
+                        data[j] = data[i];
+                        data[i] = temp;
+                    }
+                    
                     i++;
                 }
             }
