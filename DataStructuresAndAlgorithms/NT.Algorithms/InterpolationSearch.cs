@@ -12,7 +12,6 @@
             int low = 0;
             int middle = -1;
             int high = length - 1;
-            int index = -1;
 
             while (low <= high)
             {
@@ -20,23 +19,20 @@
 
                 if (array[middle] == value)
                 {
-                    index = middle;
-                    break;
+                    return middle;
+                }
+
+                if (array[middle] < value)
+                {
+                    low = middle + 1;
                 }
                 else
                 {
-                    if (array[middle] < value)
-                    {
-                        low = middle + 1;
-                    }
-                    else
-                    {
-                        high = middle - 1;
-                    }
+                    high = middle - 1;
                 }
             }
 
-            return index;
+            return -1;
         }
     }
 }
