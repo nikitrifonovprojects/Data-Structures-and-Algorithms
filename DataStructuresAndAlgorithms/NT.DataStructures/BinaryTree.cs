@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NT.DataStructures
 {
     public class BinaryTree<T> : ICollection<T> where T : IComparable<T>
     {
-        private Node root;
+        private BinaryNode root;
         private int count;
 
         public BinaryTree()
@@ -45,108 +42,246 @@ namespace NT.DataStructures
 
         public void Add(T item)
         {
-            if (this.root.Value == null)
+            InsertNode(item);
+        }
+
+        private void InsertNode(T item)
+        {
+            BinaryNode newNode = new BinaryNode(item);
+            if (this.root == null)
             {
-                this.root.Value = item;
+                this.root = newNode;
+                this.count++;
             }
             else
             {
-                InsertNode(this.root, item);
+                var current = this.root;
+                while (true)
+                {
+                    var tempParent = current;
+                    if (current.Value.CompareTo(item) < 0)
+                    {
+                        current = current.Left;
+                        if (current == null)
+                        {
+                            tempParent.Left = newNode;
+                            newNode.Parent = tempParent;
+                            this.count++;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        current = current.Right;
+                        if (current == null)
+                        {
+                            tempParent.Right = newNode;
+                            newNode.Parent = tempParent;
+                            this.count++;
+                            return;
+                        }
+                    }
+                }
             }
         }
 
-        private void InsertNode(Node parent, T item)
+        private List<T> DepthFirstSearch()
         {
-            if (parent.Value.CompareTo(item) > 0)
+            var stack = new Stack<BinaryNode>();
+            var result = new List<T>();
+            stack.Push(this.root);
+            while (stack.Count > 0)
             {
-                InsertNodeLeft(parent, item);
+                BinaryNode node = stack.Pop();
+                result.Add(node.Value);
+                if (node.Left != null)
+                {
+                    stack.Push(node.Left);
+                }
+
+                if (node.Right != null)
+                {
+                    stack.Push(node.Right);
+                }
             }
-            else
-            {
-                InsertNodeRight(parent, item);
-            }
+
+            return result;
         }
 
-        private void InsertNodeLeft(Node parent, T item)
+        public List<T> BreathFirstSearch()
         {
-            var current = parent;
-            while (current.Left != null)
+            var queue = new Queue<BinaryNode>();
+            var result = new List<T>();
+            queue.Enqueue(this.root);
+            while (queue.Count > 0)
             {
-                if (current.Left.Value.CompareTo(item) > 0)
+                BinaryNode node = queue.Dequeue();
+                result.Add(node.Value);
+                if (node.Left != null)
                 {
-                    current = current.Left;
+                    queue.Enqueue(node.Left);
                 }
-                else
+
+                if (node.Right != null)
                 {
-                    InsertNodeRight(current, item);
+                    queue.Enqueue(node.Right);
                 }
             }
 
-            current.Left = new Node(item);
-        }
-
-        private void InsertNodeRight(Node parent, T item)
-        {
-            var current = parent;
-            while (current.Right != null)
-            {
-                if (current.Right.Value.CompareTo(item) <= 0)
-                {
-                    current = current.Right;
-                }
-                else
-                {
-                    InsertNodeLeft(current, item);
-                }
-            }
-
-            current.Right = new Node(item);
+            return result;
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            this.root = null;
+            this.count = 0;
         }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            return (FindNodeByValue(this.root, item) != null);
+        }
+
+        private BinaryNode FindNodeByValue(BinaryNode node, T item)
+        {
+            var currentCompare = node.Value.CompareTo(item);
+            if (currentCompare == 0)
+            {
+                return node;
+            }
+            else
+            {
+                if (currentCompare < 0 && node.Left != null)
+                {
+                    return FindNodeByValue(node.Left, item);
+                }
+                else if (currentCompare > 0 && node.Right != null)
+                {
+                    return FindNodeByValue(node.Right, item);
+                }
+            }
+
+            return null;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
+            var treeList = DepthFirstSearch();
+            if (array == null)
+            {
+                throw new ArgumentNullException();
+            }
 
+            if (arrayIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (array.Length - arrayIndex > treeList.Count)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            int count = 0;
+            for (int i = arrayIndex; i < array.Length; i++)
+            {
+                array[i] = treeList[count];
+                count++;
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return DepthFirstSearch().GetEnumerator();
         }
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            BinaryNode nodeToRemove = FindNodeByValue(this.root, item);
+            if (nodeToRemove == null)
+            {
+                return false;
+            }
+
+            if (nodeToRemove.Left == null && nodeToRemove.Right == null)
+            {
+                BinaryNode tempParent = nodeToRemove.Parent;
+                if (nodeToRemove == tempParent.Left)
+                {
+                    tempParent.Left = null;
+                }
+                else
+                {
+                    tempParent.Right = null;
+                }
+            }
+            else if (nodeToRemove.Left == null || nodeToRemove.Right == null)
+            {
+                BinaryNode tempChild = nodeToRemove.Left == null ? nodeToRemove.Right : nodeToRemove.Left;
+                BinaryNode tempParent = nodeToRemove.Parent;
+                if (nodeToRemove == tempParent.Left)
+                {
+                    tempParent.Left = tempChild;
+                }
+                else
+                {
+                    tempParent.Right = tempChild;
+                }
+            }
+            else if (nodeToRemove.Right != null && nodeToRemove.Left != null)
+            {
+                var minNode = FindMinNode(nodeToRemove.Left);
+                var leftoverChain = minNode.Left;
+                nodeToRemove.Value = minNode.Value;
+                var minNodeParent = minNode.Parent;
+                minNodeParent.Right = leftoverChain;
+                if (leftoverChain != null)
+                {
+                    leftoverChain.Parent = minNodeParent;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.count--;
+            return true;
+        }
+
+        private BinaryNode FindMinNode(BinaryNode node)
+        {
+            var current = node;
+            if (current.Right == null)
+            {
+                return current;
+            }
+
+            return FindMinNode(current.Right);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
 
-        internal sealed class Node
+        internal sealed class BinaryNode
         {
-            internal Node(T value)
+            internal BinaryNode(T value)
             {
                 this.Value = value;
                 this.Left = null;
                 this.Right = null;
+                this.Parent = null;
             }
 
             internal T Value { get; set; }
 
-            internal Node Left { get; set; }
+            internal BinaryNode Parent { get; set; }
 
-            internal Node Right { get; set; }
+            internal BinaryNode Left { get; set; }
+
+            internal BinaryNode Right { get; set; }
         }
     }
 }
