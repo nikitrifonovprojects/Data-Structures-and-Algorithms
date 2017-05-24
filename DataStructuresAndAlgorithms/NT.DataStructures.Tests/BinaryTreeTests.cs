@@ -119,7 +119,218 @@ namespace NT.DataStructures.Tests
             tree.Add(25);
 
             var result = tree.BreathFirstSearch();
+
             //Assert
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void AddingAndRemovingMultipleValuesWorksCorrectly()
+        {
+            //Arrange
+            var tree = new BinaryTree<int>();
+            var expected = new List<int>() { 5, 19, 2, 21, 9, 3, -4, 10, 1 };
+            int expectedCount = expected.Count;
+
+            //Act
+            tree.Add(5);
+            tree.Add(2);
+            tree.Add(-4);
+            tree.Add(3);
+            tree.Add(12);
+            tree.Add(9);
+            tree.Add(21);
+            tree.Add(19);
+            tree.Add(25);
+
+            tree.Remove(12);
+            tree.Remove(25);
+            tree.Add(1);
+            tree.Add(10);
+
+            int count = tree.Count;
+            var result = tree.BreathFirstSearch();
+
+            //Assert
+            CollectionAssert.AreEqual(expected, result);
+            Assert.AreEqual(expectedCount, count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreatingATreeWithNullValueThrowsException()
+        {
+            //Arrange
+            string input = null;
+            var tree = new BinaryTree<string>(input);
+
+            //Act
+            //Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddingNullValueToNodeThrowsException()
+        {
+            //Arrange
+            string input = null;
+            var tree = new BinaryTree<string>();
+            tree.Add(input);
+
+            //Act
+            //Assert
+        }
+
+        [TestMethod]
+        public void EnumeratorWorksCorrectly()
+        {
+            //Arrange
+            var tree = new BinaryTree<int>();
+            var expected = new List<int>() { 5, 19, 2, 21, 9, 3, -4, 10, 1 };
+
+            //Act
+            tree.Add(5);
+            tree.Add(2);
+            tree.Add(-4);
+            tree.Add(3);
+            tree.Add(12);
+            tree.Add(9);
+            tree.Add(21);
+            tree.Add(19);
+            tree.Add(25);
+
+            tree.Remove(12);
+            tree.Remove(25);
+            tree.Add(1);
+            tree.Add(10);
+
+            int count = 0;
+            foreach (var item in tree)
+            {
+                count++;
+            }
+
+            var result = tree.BreathFirstSearch();
+            //Assert
+            Assert.AreEqual(expected.Count, count);
+        }
+
+        [TestMethod]
+        public void EnumeratorDoesntEnumerateEmptyTreeWorksCorrectly()
+        {
+            //Arrange
+            var tree = new BinaryTree<int>();
+            bool expected = false;
+
+            //Act
+
+            foreach (var item in tree)
+            {
+                expected = true;
+            }
+
+            //Assert
+            Assert.IsFalse(expected);
+        }
+
+        [TestMethod]
+        public void RemovingRootsAndGreaterValueWorksCorrectly()
+        {
+            //Arrange
+            var tree = new BinaryTree<int>();
+            var expected = new List<int>() { 2 };
+            int count = 1;
+            tree.Add(1);
+            tree.Add(2);
+
+            //Act
+            tree.Remove(1);
+            var result = tree.BreathFirstSearch();
+
+            //Assert
+            Assert.AreEqual(count, tree.Count);
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void RemovingWhenTreeHasOneValueWorksCorrectly()
+        {
+            //Arrange
+            var tree = new BinaryTree<int>();
+            var expected = new List<int>();
+
+            int count = 0;
+            tree.Add(1);
+
+            //Act
+            tree.Remove(1);
+            var result = tree.BreathFirstSearch();
+
+            //Assert
+            Assert.AreEqual(count, tree.Count);
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void RemovingWhenTreeHasRootAndLesserValueWorksCorrectly()
+        {
+            //Arrange
+            var tree = new BinaryTree<int>();
+            var expected = new List<int>() { 0 };
+            int count = 1;
+            tree.Add(1);
+            tree.Add(0);
+
+            //Act
+            tree.Remove(1);
+            var result = tree.BreathFirstSearch();
+
+            //Assert
+            Assert.AreEqual(count, tree.Count);
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void RemovingWhenTreeHasRootAndLesserAndGreaterValueWorksCorrectly()
+        {
+            //Arrange
+            var tree = new BinaryTree<int>();
+            var expected = new List<int>() { 2, 0 };
+
+            int count = 2;
+            tree.Add(1);
+            tree.Add(2);
+            tree.Add(0);
+
+            //Act
+            tree.Remove(1);
+            var result = tree.BreathFirstSearch();
+
+            //Assert
+            Assert.AreEqual(count, tree.Count);
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void RemovingWhenTreeHasRootAndLesserAndGreaterWorksCorrectly()
+        {
+            //Arrange
+            var tree = new BinaryTree<int>();
+            var expected = new List<int>() { 2, 3, 0, 4 };
+
+            int count = 4;
+            tree.Add(1);
+            tree.Add(2);
+            tree.Add(3);
+            tree.Add(4);
+            tree.Add(0);
+
+            //Act
+            tree.Remove(1);
+            var result = tree.BreathFirstSearch();
+
+            //Assert
+            Assert.AreEqual(count, tree.Count);
             CollectionAssert.AreEqual(expected, result);
         }
     }

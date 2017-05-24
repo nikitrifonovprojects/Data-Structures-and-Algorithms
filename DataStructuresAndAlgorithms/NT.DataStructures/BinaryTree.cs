@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace NT.DataStructures
 {
@@ -42,6 +43,11 @@ namespace NT.DataStructures
 
         public void Add(T item)
         {
+            if (item == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             InsertNode(item);
         }
 
@@ -85,8 +91,15 @@ namespace NT.DataStructures
             }
         }
 
-        private List<T> DepthFirstSearch()
+        public List<T> DepthFirstSearch()
         {
+            if (this.count == 0)
+            {
+                return new List<T>();
+            }
+
+            Debug.Assert(this.root != null);
+
             var stack = new Stack<BinaryNode>();
             var result = new List<T>();
             stack.Push(this.root);
@@ -110,6 +123,13 @@ namespace NT.DataStructures
 
         public List<T> BreathFirstSearch()
         {
+            if (this.count == 0)
+            {
+                return new List<T>();
+            }
+
+            Debug.Assert(this.root != null);
+
             var queue = new Queue<BinaryNode>();
             var result = new List<T>();
             queue.Enqueue(this.root);
@@ -206,7 +226,11 @@ namespace NT.DataStructures
             if (nodeToRemove.Left == null && nodeToRemove.Right == null)
             {
                 BinaryNode tempParent = nodeToRemove.Parent;
-                if (nodeToRemove == tempParent.Left)
+                if (tempParent == null)
+                {
+                    this.root = null;
+                }
+                else if (nodeToRemove == tempParent.Left)
                 {
                     tempParent.Left = null;
                 }
@@ -219,7 +243,13 @@ namespace NT.DataStructures
             {
                 BinaryNode tempChild = nodeToRemove.Left == null ? nodeToRemove.Right : nodeToRemove.Left;
                 BinaryNode tempParent = nodeToRemove.Parent;
-                if (nodeToRemove == tempParent.Left)
+
+                if (tempParent == null)
+                {
+                    this.root = tempChild;
+                    this.root.Parent = null;
+                }
+                else if (nodeToRemove == tempParent.Left)
                 {
                     tempParent.Left = tempChild;
                 }
@@ -234,7 +264,15 @@ namespace NT.DataStructures
                 var leftoverChain = minNode.Left;
                 nodeToRemove.Value = minNode.Value;
                 var minNodeParent = minNode.Parent;
-                minNodeParent.Right = leftoverChain;
+                if (minNode.Parent != nodeToRemove)
+                {
+                    minNodeParent.Right = leftoverChain;
+                }
+                else
+                {
+                    minNodeParent.Left = leftoverChain;
+                }
+
                 if (leftoverChain != null)
                 {
                     leftoverChain.Parent = minNodeParent;
