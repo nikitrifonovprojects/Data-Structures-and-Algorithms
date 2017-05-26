@@ -23,7 +23,7 @@ namespace NT.DataStructures
             }
 
             this.uniqueNodes = new HashSet<TreeNode>();
-            this.root = new TreeNode(value, null);
+            this.root = new TreeNode(value);
             this.uniqueNodes.Add(this.root);
         }
 
@@ -81,19 +81,6 @@ namespace NT.DataStructures
             parent.AddChild(node);
         }
 
-        public bool Remove(TreeNode node)
-        {
-            var nodeToRemove = DepthFirstSearch(node, this.root);
-            if (nodeToRemove != null)
-            {
-                RemoveNode(nodeToRemove);
-                this.uniqueNodes.Remove(nodeToRemove);
-                return true;
-            }
-
-            return false;
-        }
-
         public bool Remove(T value)
         {
             var nodeToRemove = DepthFirstSearch(value, this.root);
@@ -111,6 +98,7 @@ namespace NT.DataStructures
         {
             if (node == this.root)
             {
+                this.uniqueNodes.Remove(this.root);
                 if (this.root.NodeCount == 0)
                 {
                     this.root = null;
@@ -129,16 +117,14 @@ namespace NT.DataStructures
 
                     this.root = temp;
                 }
+
             }
             else
             {
                 node.Parent.RemoveChild(node);
+                this.uniqueNodes.Remove(node);
             }
-        }
 
-        public bool Contains(TreeNode node)
-        {
-            return DepthFirstSearch(node, this.root) != null;
         }
 
         public bool Contains(T value)
@@ -146,7 +132,7 @@ namespace NT.DataStructures
             return DepthFirstSearch(value, this.root) != null;
         }
 
-        private TreeNode DepthFirstSearch(T value, TreeNode node)
+        public TreeNode DepthFirstSearch(T value, TreeNode node)
         {
             if (node.Value.CompareTo(value) == 0)
             {
@@ -165,9 +151,9 @@ namespace NT.DataStructures
             return null;
         }
 
-        private TreeNode DepthFirstSearch(TreeNode nodeToFInd, TreeNode node)
+        private TreeNode DepthFirstSearch(TreeNode nodeToFind, TreeNode node)
         {
-            if (node == nodeToFInd)
+            if (node == nodeToFind)
             {
                 return node;
             }
@@ -275,10 +261,10 @@ namespace NT.DataStructures
 
         public sealed class TreeNode
         {
-            public TreeNode(T value, TreeNode parent)
+            public TreeNode(T value)
             {
                 this.Value = value;
-                this.Parent = parent;
+                this.Parent = null;
                 this.NodeChildren = new List<TreeNode>();
             }
 

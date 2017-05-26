@@ -57,6 +57,7 @@
     <Compile Include="StaticQueueTests.cs" />
     <Compile Include="StaticPriorityQueueTests.cs" />
     <Compile Include="BinaryTreeTests.cs" />
+    <Compile Include="TreeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
