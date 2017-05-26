@@ -23,6 +23,7 @@ namespace NT.DataStructures
             }
 
             this.root.Value = value;
+            this.count++;
         }
 
         public int Count
