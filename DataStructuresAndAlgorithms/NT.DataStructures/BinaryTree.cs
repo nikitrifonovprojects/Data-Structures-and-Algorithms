@@ -224,37 +224,37 @@ namespace NT.DataStructures
 
             if (nodeToRemove.Left == null && nodeToRemove.Right == null)
             {
-                BinaryNode tempParent = nodeToRemove.Parent;
-                if (tempParent == null)
+                BinaryNode nodeToRemoveTempParent = nodeToRemove.Parent;
+                if (nodeToRemoveTempParent == null)
                 {
                     this.root = null;
                 }
-                else if (nodeToRemove == tempParent.Left)
+                else if (nodeToRemove == nodeToRemoveTempParent.Left)
                 {
-                    tempParent.Left = null;
+                    nodeToRemoveTempParent.Left = null;
                 }
                 else
                 {
-                    tempParent.Right = null;
+                    nodeToRemoveTempParent.Right = null;
                 }
             }
             else if (nodeToRemove.Left == null || nodeToRemove.Right == null)
             {
-                BinaryNode tempChild = nodeToRemove.Left == null ? nodeToRemove.Right : nodeToRemove.Left;
-                BinaryNode tempParent = nodeToRemove.Parent;
+                BinaryNode nodeToRemoveTempChild = nodeToRemove.Left == null ? nodeToRemove.Right : nodeToRemove.Left;
+                BinaryNode nodeToRemoveTempParent = nodeToRemove.Parent;
 
-                if (tempParent == null)
+                if (nodeToRemoveTempParent == null)
                 {
-                    this.root = tempChild;
+                    this.root = nodeToRemoveTempChild;
                     this.root.Parent = null;
                 }
-                else if (nodeToRemove == tempParent.Left)
+                else if (nodeToRemove == nodeToRemoveTempParent.Left)
                 {
-                    tempParent.Left = tempChild;
+                    nodeToRemoveTempParent.Left = nodeToRemoveTempChild;
                 }
                 else
                 {
-                    tempParent.Right = tempChild;
+                    nodeToRemoveTempParent.Right = nodeToRemoveTempChild;
                 }
             }
             else if (nodeToRemove.Right != null && nodeToRemove.Left != null)
