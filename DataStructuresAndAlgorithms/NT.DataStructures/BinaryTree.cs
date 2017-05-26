@@ -12,7 +12,7 @@ namespace NT.DataStructures
 
         public BinaryTree()
         {
-            this.root = null;
+            
         }
 
         public BinaryTree(T value)
@@ -63,7 +63,7 @@ namespace NT.DataStructures
             else
             {
                 var current = this.root;
-                while (true)
+                while (current != null)
                 {
                     var tempParent = current;
                     if (current.Value.CompareTo(item) < 0)
@@ -73,8 +73,6 @@ namespace NT.DataStructures
                         {
                             tempParent.Left = newNode;
                             newNode.Parent = tempParent;
-                            this.count++;
-                            return;
                         }
                     }
                     else
@@ -84,11 +82,11 @@ namespace NT.DataStructures
                         {
                             tempParent.Right = newNode;
                             newNode.Parent = tempParent;
-                            this.count++;
-                            return;
                         }
                     }
                 }
+
+                this.count++;
             }
         }
 
@@ -122,7 +120,7 @@ namespace NT.DataStructures
             return result;
         }
 
-        public List<T> BreathFirstSearch()
+        public List<T> BreadthFirstSearch()
         {
             if (this.count == 0)
             {

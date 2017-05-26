@@ -101,7 +101,7 @@ namespace NT.DataStructures.Tests
         }
 
         [TestMethod]
-        public void BreathFirstSearchWorksCorrectly()
+        public void BreadthFirstSearchWorksCorrectly()
         {
             //Arrange
             var tree = new BinaryTree<int>();
@@ -118,7 +118,7 @@ namespace NT.DataStructures.Tests
             tree.Add(19);
             tree.Add(25);
 
-            var result = tree.BreathFirstSearch();
+            var result = tree.BreadthFirstSearch();
 
             //Assert
             CollectionAssert.AreEqual(expected, result);
@@ -149,7 +149,7 @@ namespace NT.DataStructures.Tests
             tree.Add(10);
 
             int count = tree.Count;
-            var result = tree.BreathFirstSearch();
+            var result = tree.BreadthFirstSearch();
 
             //Assert
             CollectionAssert.AreEqual(expected, result);
@@ -210,7 +210,7 @@ namespace NT.DataStructures.Tests
                 count++;
             }
 
-            var result = tree.BreathFirstSearch();
+            var result = tree.BreadthFirstSearch();
             //Assert
             Assert.AreEqual(expected.Count, count);
         }
@@ -245,7 +245,7 @@ namespace NT.DataStructures.Tests
 
             //Act
             tree.Remove(1);
-            var result = tree.BreathFirstSearch();
+            var result = tree.BreadthFirstSearch();
 
             //Assert
             Assert.AreEqual(count, tree.Count);
@@ -264,7 +264,7 @@ namespace NT.DataStructures.Tests
 
             //Act
             tree.Remove(1);
-            var result = tree.BreathFirstSearch();
+            var result = tree.BreadthFirstSearch();
 
             //Assert
             Assert.AreEqual(count, tree.Count);
@@ -283,7 +283,7 @@ namespace NT.DataStructures.Tests
 
             //Act
             tree.Remove(1);
-            var result = tree.BreathFirstSearch();
+            var result = tree.BreadthFirstSearch();
 
             //Assert
             Assert.AreEqual(count, tree.Count);
@@ -304,7 +304,7 @@ namespace NT.DataStructures.Tests
 
             //Act
             tree.Remove(1);
-            var result = tree.BreathFirstSearch();
+            var result = tree.BreadthFirstSearch();
 
             //Assert
             Assert.AreEqual(count, tree.Count);
@@ -327,11 +327,23 @@ namespace NT.DataStructures.Tests
 
             //Act
             tree.Remove(1);
-            var result = tree.BreathFirstSearch();
+            var result = tree.BreadthFirstSearch();
 
             //Assert
             Assert.AreEqual(count, tree.Count);
             CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreateBinaryTreeWithNullValueThrowsException()
+        {
+            //Arrange
+            string input = null;
+            var tree = new BinaryTree<string>(input);
+
+            //Act
+            //Assert
         }
     }
 }
