@@ -11,7 +11,6 @@ namespace NT.DataStructures
 
         public Tree()
         {
-            this.root = null;
             this.uniqueNodes = new HashSet<TreeNode>();
         }
 

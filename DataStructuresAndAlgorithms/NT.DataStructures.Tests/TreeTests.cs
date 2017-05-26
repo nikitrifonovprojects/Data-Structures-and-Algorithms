@@ -149,5 +149,48 @@ namespace NT.DataStructures.Tests
             //Assert
             CollectionAssert.AreEquivalent(expected, result);
         }
+
+        [TestMethod]
+        public void EnumeratorWorksCorrectly()
+        {
+            //Arrange
+            var tree = new Tree<int>();
+            var expected = new List<int>();
+            int count = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                var node = new Tree<int>.TreeNode(count);
+                expected.Add(count);
+                count++;
+                tree.Add(node);
+            }
+
+            var result = new List<int>();
+
+            //Act
+            foreach (var item in tree)
+            {
+                result.Add(item);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void EnumeratorDoesntEnumerateEmptyTree()
+        {
+            //Arrange
+            var tree = new Tree<int>();
+            bool check = false;
+            //Act
+            foreach (var item in tree)
+            {
+                check = true;
+            }
+
+            //Assert
+            Assert.IsFalse(check);
+        }
     }
 }
