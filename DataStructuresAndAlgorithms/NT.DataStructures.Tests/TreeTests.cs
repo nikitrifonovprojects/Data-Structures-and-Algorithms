@@ -192,5 +192,44 @@ namespace NT.DataStructures.Tests
             //Assert
             Assert.IsFalse(check);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreatingTreeWithNullValueThrowsException()
+        {
+            //Arrange
+            string input = null;
+            var tree = new Tree<string>(input);
+            
+            //Act
+            //Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreatingANodehNullValueThrowsException()
+        {
+            //Arrange
+            string value = null;
+            var input = new Tree<string>.TreeNode(value);
+
+            //Act
+            //Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddingTheSameValueThrowsException()
+        {
+            //Arrange
+            string value = "a";
+            var input = new Tree<string>.TreeNode(value);
+            var tree = new Tree<string>();
+
+            //Act
+            tree.Add(input);
+            tree.Add(input);
+            //Assert
+        }
     }
 }

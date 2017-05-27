@@ -262,6 +262,11 @@ namespace NT.DataStructures
         {
             public TreeNode(T value)
             {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
                 this.Value = value;
                 this.Parent = null;
                 this.NodeChildren = new List<TreeNode>();
