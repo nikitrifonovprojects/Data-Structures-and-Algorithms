@@ -158,18 +158,6 @@ namespace NT.DataStructures.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void CreatingATreeWithNullValueThrowsException()
-        {
-            //Arrange
-            string input = null;
-            var tree = new BinaryTree<string>(input);
-
-            //Act
-            //Assert
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void AddingNullValueToNodeThrowsException()
         {
             //Arrange
@@ -344,6 +332,24 @@ namespace NT.DataStructures.Tests
 
             //Act
             //Assert
+        }
+
+        [TestMethod]
+        public void CreateBinaryTreeWorksCorrectly()
+        {
+            //Arrange
+            string input = "A";
+            var expectedCount = 1;
+            var expectedTree = new string[] { "A" };
+            var result = new string[1];
+
+            //Act
+            var tree = new BinaryTree<string>(input);
+            tree.CopyTo(result, 0);
+
+            //Assert
+            Assert.AreEqual(expectedCount, tree.Count);
+            CollectionAssert.AreEqual(expectedTree, result);
         }
     }
 }

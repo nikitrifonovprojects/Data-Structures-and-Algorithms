@@ -21,8 +21,7 @@ namespace NT.DataStructures
             {
                 throw new ArgumentNullException();
             }
-
-            this.root.Value = value;
+            this.root = new BinaryNode(value);
             this.count++;
         }
 
@@ -58,21 +57,20 @@ namespace NT.DataStructures
             if (this.root == null)
             {
                 this.root = newNode;
-                this.count++;
             }
             else
             {
                 var current = this.root;
                 while (current != null)
                 {
-                    var tempParent = current;
+                    var newNodeParent = current;
                     if (current.Value.CompareTo(item) < 0)
                     {
                         current = current.Left;
                         if (current == null)
                         {
-                            tempParent.Left = newNode;
-                            newNode.Parent = tempParent;
+                            newNodeParent.Left = newNode;
+                            newNode.Parent = newNodeParent;
                         }
                     }
                     else
@@ -80,14 +78,14 @@ namespace NT.DataStructures
                         current = current.Right;
                         if (current == null)
                         {
-                            tempParent.Right = newNode;
-                            newNode.Parent = tempParent;
+                            newNodeParent.Right = newNode;
+                            newNode.Parent = newNodeParent;
                         }
                     }
                 }
-
-                this.count++;
             }
+
+            this.count++;
         }
 
         public List<T> DepthFirstSearch()
@@ -211,7 +209,7 @@ namespace NT.DataStructures
 
         public IEnumerator<T> GetEnumerator()
         {
-            return DepthFirstSearch().GetEnumerator();
+            return new BinaryTreeEnumerator(this);
         }
 
         public bool Remove(T item)
@@ -224,37 +222,37 @@ namespace NT.DataStructures
 
             if (nodeToRemove.Left == null && nodeToRemove.Right == null)
             {
-                BinaryNode nodeToRemoveTempParent = nodeToRemove.Parent;
-                if (nodeToRemoveTempParent == null)
+                BinaryNode nodeToRemoveParent = nodeToRemove.Parent;
+                if (nodeToRemoveParent == null)
                 {
                     this.root = null;
                 }
-                else if (nodeToRemove == nodeToRemoveTempParent.Left)
+                else if (nodeToRemove == nodeToRemoveParent.Left)
                 {
-                    nodeToRemoveTempParent.Left = null;
+                    nodeToRemoveParent.Left = null;
                 }
                 else
                 {
-                    nodeToRemoveTempParent.Right = null;
+                    nodeToRemoveParent.Right = null;
                 }
             }
             else if (nodeToRemove.Left == null || nodeToRemove.Right == null)
             {
-                BinaryNode nodeToRemoveTempChild = nodeToRemove.Left == null ? nodeToRemove.Right : nodeToRemove.Left;
-                BinaryNode nodeToRemoveTempParent = nodeToRemove.Parent;
+                BinaryNode nodeToRemoveChild = nodeToRemove.Left == null ? nodeToRemove.Right : nodeToRemove.Left;
+                BinaryNode nodeToRemoveParent = nodeToRemove.Parent;
 
-                if (nodeToRemoveTempParent == null)
+                if (nodeToRemoveParent == null)
                 {
-                    this.root = nodeToRemoveTempChild;
+                    this.root = nodeToRemoveChild;
                     this.root.Parent = null;
                 }
-                else if (nodeToRemove == nodeToRemoveTempParent.Left)
+                else if (nodeToRemove == nodeToRemoveParent.Left)
                 {
-                    nodeToRemoveTempParent.Left = nodeToRemoveTempChild;
+                    nodeToRemoveParent.Left = nodeToRemoveChild;
                 }
                 else
                 {
-                    nodeToRemoveTempParent.Right = nodeToRemoveTempChild;
+                    nodeToRemoveParent.Right = nodeToRemoveChild;
                 }
             }
             else if (nodeToRemove.Right != null && nodeToRemove.Left != null)
@@ -300,6 +298,82 @@ namespace NT.DataStructures
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        internal class BinaryTreeEnumerator : IEnumerator<T>
+        {
+            private BinaryTree<T> tree;
+            private T current;
+            private Queue<BinaryNode> queue;
+            private bool hasStarted;
+
+            public BinaryTreeEnumerator(BinaryTree<T> tree)
+            {
+                this.tree = tree;
+                this.current = default(T);
+                this.queue = new Queue<BinaryNode>();
+            }
+
+            public T Current
+            {
+                get
+                {
+                    return this.current;
+                }
+            }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    return this.current;
+                }
+            }
+
+            public void Dispose()
+            {
+                
+            }
+
+            public bool MoveNext()
+            {
+                if (this.tree.Count == 0)
+                {
+                    return false;
+                }
+
+                if (!this.hasStarted)
+                {
+                    this.hasStarted = true;
+                    this.queue.Enqueue(this.tree.root);
+                }
+
+                if (this.queue.Count > 0)
+                {
+                    BinaryNode node = this.queue.Dequeue();
+                    this.current = node.Value;
+                    if (node.Left != null)
+                    {
+                        this.queue.Enqueue(node.Left);
+                    }
+
+                    if (node.Right != null)
+                    {
+                        this.queue.Enqueue(node.Right);
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            public void Reset()
+            {
+                this.current = default(T);
+                this.queue.Clear();
+                this.hasStarted = false;
+            }
         }
 
         internal sealed class BinaryNode
