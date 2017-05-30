@@ -231,5 +231,136 @@ namespace NT.DataStructures.Tests
             tree.Add(input);
             //Assert
         }
+
+        [TestMethod]
+        public void RemoveRootWithOnlyOneChildWorksCorrectly()
+        {
+            //Arrange
+            var tree = new Tree<string>();
+            string value = "a";
+            string value1 = "b";
+            var expected = new List<string>();
+            expected.Add(value1);
+            var input = new Tree<string>.TreeNode(value);
+            var input1 = new Tree<string>.TreeNode(value1);
+            tree.Add(input);
+            tree.Add(input1);
+
+            //Act
+            tree.Remove("a");
+            var result = new List<string>();
+            foreach (var val in tree)
+            {
+                result.Add(val);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void RemoveNodeWhenOnlyTwoNodesInTreeWorksCorrectly()
+        {
+            //Arrange
+            var tree = new Tree<string>();
+            string value = "a";
+            string value1 = "b";
+            var expected = new List<string>();
+            expected.Add(value);
+            var input = new Tree<string>.TreeNode(value);
+            var input1 = new Tree<string>.TreeNode(value1);
+            tree.Add(input);
+            tree.Add(input1);
+
+            //Act
+            tree.Remove("b");
+            var result = new List<string>();
+            foreach (var val in tree)
+            {
+                result.Add(val);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(expected, result);
+            Assert.IsNull(tree.Root.Parent);
+        }
+
+        [TestMethod]
+        public void RemoveRootValueWorksCorrectly()
+        {
+            //Arrange
+            var tree = new Tree<int>();
+            var expected = new List<int>();
+            int actual = 0;
+            int count = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                var node = new Tree<int>.TreeNode(count);
+                count++;
+                tree.Add(node);
+                expected.Add(node.Value);
+                for (int j = 0; j < 10; j++)
+                {
+                    var child = new Tree<int>.TreeNode(count);
+                    count++;
+                    tree.Add(child, node);
+                    expected.Add(child.Value);
+                    for (int k = 0; k < 10; k++)
+                    {
+                        var newChild = new Tree<int>.TreeNode(count);
+                        count++;
+                        tree.Add(newChild, child);
+                        expected.Add(newChild.Value);
+                        for (int f = 0; f < 20; f++)
+                        {
+                            var lastChild = new Tree<int>.TreeNode(count);
+                            count++;
+                            tree.Add(lastChild, newChild);
+                            expected.Add(lastChild.Value);
+                        }
+                    }
+                }
+            }
+
+            //Act
+            tree.Remove(0);
+            expected.Remove(0);
+            Assert.AreEqual(count - 1, expected.Count);
+            bool notFound = tree.Contains(0);
+            var actualCol = new List<int>();
+            foreach (var item in tree)
+            {
+                actual++;
+                actualCol.Add(item);
+            }
+
+            //Assert
+            Assert.IsFalse(notFound);
+            Assert.AreEqual(tree.Count, count - 1);
+            Assert.AreEqual(tree.Count, actual);
+            Assert.IsNull(tree.Root.Parent);
+            CollectionAssert.AreEquivalent(expected, actualCol);
+        }
+
+        [TestMethod]
+        public void CreateTreeWorksCorrectly()
+        {
+            //Arrange
+            string input = "A";
+            var expectedCount = 1;
+            var expectedTree = new List<string>() { "A" };
+
+            //Act
+            var tree = new Tree<string>(input);
+            var actual = new List<string>();
+            foreach (var item in tree)
+            {
+                actual.Add(item);
+            }
+
+            //Assert
+            Assert.AreEqual(expectedCount, tree.Count);
+            CollectionAssert.AreEqual(expectedTree, actual);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NT.DataStructures
 {
@@ -14,16 +15,23 @@ namespace NT.DataStructures
             this.uniqueNodes = new HashSet<TreeNode>();
         }
 
-        public Tree(T value)
+        public Tree(T value) : this()
         {
             if (value == null)
             {
                 throw new ArgumentNullException();
             }
 
-            this.uniqueNodes = new HashSet<TreeNode>();
             this.root = new TreeNode(value);
             this.uniqueNodes.Add(this.root);
+        }
+
+        public TreeNode Root
+        {
+            get
+            {
+                return this.root;
+            }
         }
 
         public int Count
@@ -33,6 +41,7 @@ namespace NT.DataStructures
                 return this.uniqueNodes.Count;
             }
         }
+
         public void Add(TreeNode node)
         {
             if (node == null)
@@ -86,7 +95,6 @@ namespace NT.DataStructures
             if (nodeToRemove != null)
             {
                 RemoveNode(nodeToRemove);
-                this.uniqueNodes.Remove(nodeToRemove);
                 return true;
             }
 
@@ -97,33 +105,29 @@ namespace NT.DataStructures
         {
             if (node == this.root)
             {
-                this.uniqueNodes.Remove(this.root);
                 if (this.root.NodeCount == 0)
                 {
                     this.root = null;
                 }
-                else if (this.root.NodeCount == 1)
-                {
-                    this.root = node;
-                }
                 else
                 {
-                    var temp = this.root.NodeChildren[0];
+                    var futureRoot = this.root.NodeChildren[0];
                     for (int i = 1; i < this.root.NodeCount; i++)
                     {
-                        temp.AddChild(this.root.NodeChildren[i]);
+                        futureRoot.AddChild(this.root.NodeChildren[i]);
                     }
 
-                    this.root = temp;
+                    this.root = futureRoot;
+                    this.root.Parent = null;
                 }
 
             }
             else
             {
                 node.Parent.RemoveChild(node);
-                this.uniqueNodes.Remove(node);
             }
 
+            this.uniqueNodes.Remove(node);
         }
 
         public bool Contains(T value)
@@ -272,13 +276,13 @@ namespace NT.DataStructures
                 this.NodeChildren = new List<TreeNode>();
             }
 
-            internal T Value { get; set; }
+            public T Value { get; set; }
 
-            internal TreeNode Parent { get; set; }
+            public TreeNode Parent { get; set; }
 
-            internal List<TreeNode> NodeChildren { get; set; }
+            public List<TreeNode> NodeChildren { get; set; }
 
-            internal int NodeCount
+            public int NodeCount
             {
                 get
                 {
