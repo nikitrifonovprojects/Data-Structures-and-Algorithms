@@ -21,6 +21,7 @@ namespace NT.DataStructures
             {
                 throw new ArgumentNullException();
             }
+
             this.root = new BinaryNode(value);
             this.count++;
         }
