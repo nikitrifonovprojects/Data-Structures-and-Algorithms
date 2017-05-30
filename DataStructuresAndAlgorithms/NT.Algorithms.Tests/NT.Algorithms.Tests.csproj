@@ -55,6 +55,8 @@
     <Compile Include="QuickSortTests.cs" />
     <Compile Include="BinarySearchTests.cs" />
     <Compile Include="InterpolationSearchTests.cs" />
+    <Compile Include="BFSearchTests.cs" />
+    <Compile Include="DFSearchTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -63,6 +65,10 @@
     <ProjectReference Include="..\NT.Algorithms\NT.Algorithms.csproj">
       <Project>{5d0d0073-2a58-4581-9662-b978cb826297}</Project>
       <Name>NT.Algorithms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NT.DataStructures\NT.DataStructures.csproj">
+      <Project>{968A1061-F1AD-4E73-840B-358F0733F82D}</Project>
+      <Name>NT.DataStructures</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

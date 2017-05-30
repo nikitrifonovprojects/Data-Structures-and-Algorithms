@@ -40,13 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BFSearch.cs" />
     <Compile Include="BinarySearch.cs" />
+    <Compile Include="DFSearch.cs" />
     <Compile Include="InsertionSort.cs" />
     <Compile Include="InterpolationSearch.cs" />
     <Compile Include="MergeSort.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuickSort.cs" />
     <Compile Include="SelectionSort.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NT.DataStructures\NT.DataStructures.csproj">
+      <Project>{968A1061-F1AD-4E73-840B-358F0733F82D}</Project>
+      <Name>NT.DataStructures</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
