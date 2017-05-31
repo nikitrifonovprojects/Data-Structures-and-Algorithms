@@ -23,5 +23,21 @@ namespace NT.Algorithms
 
             return result;
         }
+
+        public List<T> DFSearchRecursive(Tree<T>.TreeNode root)
+        {
+            var result = new List<T>();
+            DepthFirstSearchRecursive(root, result);
+            return result;
+        }
+
+        private void DepthFirstSearchRecursive(Tree<T>.TreeNode node, List<T> result)
+        {
+            result.Add(node.Value);
+            foreach (var child in node.NodeChildren)
+            {
+                DepthFirstSearchRecursive(child, result);
+            }
+        }
     }
 }
