@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5F29CB8C-A414-4D50-950D-19830A1D5054}</ProjectGuid>
+    <ProjectGuid>{E531F6EA-BF60-445C-B3FD-CC3D317E7F4E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>NT.ExamTasks.Portals</RootNamespace>
     <AssemblyName>NT.ExamTasks.Portals</AssemblyName>
