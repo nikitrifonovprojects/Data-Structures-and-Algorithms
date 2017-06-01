@@ -41,15 +41,15 @@ namespace NT.Algorithms.Tests
 
             //Act
             var search = new DFSearch<int>();
-            var result = search.DepthFirstSearch(tree.Root);
-            var actual = new List<int>();
+            var actual = search.DepthFirstSearch(tree.Root);
+            var expected = new List<int>();
             foreach (var item in tree)
             {
-                actual.Add(item);
+                expected.Add(item);
             }
 
             //Assert
-            CollectionAssert.AreEquivalent(result, actual);
+            CollectionAssert.AreEquivalent(expected, actual);
         }
 
         [TestMethod]
@@ -85,15 +85,15 @@ namespace NT.Algorithms.Tests
 
             //Act
             var search = new DFSearch<int>();
-            var result = search.DFSearchRecursive(tree.Root);
-            var actual = new List<int>();
+            var actual = search.DFSearchRecursive(tree.Root);
+            var expected = new List<int>();
             foreach (var item in tree)
             {
-                actual.Add(item);
+                expected.Add(item);
             }
 
             //Assert
-            CollectionAssert.AreEquivalent(result, actual);
+            CollectionAssert.AreEquivalent(expected, actual);
         }
     }
 }
