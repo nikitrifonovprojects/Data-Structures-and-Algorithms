@@ -47,8 +47,7 @@ namespace NT.ExamTasks.OnlineMarket
                                 break;
                             }
                         }
-
-                        if (input[2] == "price")
+                        else if (input[2] == "price")
                         {
                             double from = 0;
                             double to = double.MaxValue;
