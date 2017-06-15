@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 namespace NT.ExamTasks.Election
@@ -16,12 +15,13 @@ namespace NT.ExamTasks.Election
                 seatsPerN[i] = int.Parse(Console.ReadLine());
             }
 
-            var count = Comb(seatsPerN, k);
+            Array.Sort(seatsPerN);
+            var count = GetCombinationCount(seatsPerN, k);
 
             Console.WriteLine(count);
         }
 
-        private static BigInteger Comb(IEnumerable<int> seatsPerN, int k)
+        private static BigInteger GetCombinationCount(int[] seatsPerN, int k)
         {
             var combinations = new BigInteger[(100 * 1000) + 1];
             var maxSum = 0;
@@ -35,9 +35,10 @@ namespace NT.ExamTasks.Election
                     if (combinations[i] > 0)
                     {
                         combinations[i + seats] += combinations[i];
-                        maxSum = Math.Max(maxSum, i + seats);
                     }
                 }
+
+                maxSum += seats;
             }
 
             var countOfSolutions = new BigInteger(0);
